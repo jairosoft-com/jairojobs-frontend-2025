@@ -1,27 +1,51 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    /* Type Checking */
+    "strict": true, // Enables all strict type-checking options. This is the cornerstone of type safety.
+    "noImplicitAny": true, // Raise error on expressions and declarations with an implied 'any' type.
+    "strictNullChecks": true, // When true, `null` and `undefined` have their own distinct types.
+    "noUnusedLocals": true, // Report errors on unused local variables.
+    "noUnusedParameters": true, // Report errors on unused parameters.
+    "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement.
+    /* Modules */
+    "module": "esnext", // Specify what module code is generated. 'esnext' allows for modern module features.
+    "moduleResolution": "bundler", // The recommended mode for modern bundlers like Webpack/Turbopack. It aligns with how Node.js resolves modules.
+    "resolveJsonModule": true, // Allows importing `.json` files.
+    "allowImportingTsExtensions": true, // Required for `moduleResolution: "bundler"` when using TypeScript files with extensions.
+    /* JavaScript Support */
+    "allowJs": true, // Allow JavaScript files to be compiled.
+    "checkJs": true, // Report errors in.js files.
+    /* Emit */
+    "noEmit": true, // Do not emit output files (transpilation is handled by Next.js's compiler).
+    "incremental": true, // Enable incremental compilation, speeding up subsequent builds.
+    /* Interop Constraints */
+    "esModuleInterop": true, // Enables compatibility with CommonJS modules.
+    "forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
+    "isolatedModules": true, // Ensures that each file can be transpiled without relying on other imports.
+    /* Language and Environment */
+    "target": "es5", // The language version for emitted JavaScript. 'es5' ensures broad browser compatibility.
+    "lib": ["dom", "dom.iterable", "esnext"], // Specifies the library files to be included in the compilation.
+    "jsx": "preserve", // Do not transform JSX. Next.js's compiler handles this.
+    /* Path Aliases */
+    "baseUrl": ".", // Base directory to resolve non-absolute module names.
+    "paths": {
+      "@/*": ["./src/*"] // Sets up the '@/' alias to point to the 'src' directory for cleaner imports.
+    },
+    /* Plugins */
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "skipLibCheck": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.mjs"
+  ],
   "exclude": ["node_modules"]
 }
