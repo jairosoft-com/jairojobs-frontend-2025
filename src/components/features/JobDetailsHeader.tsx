@@ -94,7 +94,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
 
         {/* Job Meta Information */}
         <div className="mb-6 flex flex-wrap gap-4 text-gray-600">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" data-testid="location-badge">
             <MapPin className="h-4 w-4" />
             <span>{job.location}</span>
           </div>
@@ -102,7 +102,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
             <Building2 className="h-4 w-4" />
             <span>{remoteOptionLabel}</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" data-testid="salary-range">
             <DollarSign className="h-4 w-4" />
             <span>{formatSalary()}</span>
           </div>
@@ -116,8 +116,8 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
 
         {/* Badges */}
         <div className="mb-6 flex flex-wrap gap-2">
-          <Badge variant="secondary">{jobTypeLabel}</Badge>
-          <Badge variant="outline">{experienceLevelLabel}</Badge>
+          <Badge variant="secondary" data-testid="job-type-badge">{jobTypeLabel}</Badge>
+          <Badge variant="outline" data-testid="experience-badge">{experienceLevelLabel}</Badge>
         </div>
 
         {/* Timeline Information */}

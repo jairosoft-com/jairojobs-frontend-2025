@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -49,6 +49,11 @@ export default function JobDetailsPage({ params }: JobDetailsPageProps) {
     employees: { min: 0, max: 0 },
     verified: false,
   };
+
+  // Update browser title
+  useEffect(() => {
+    document.title = `${job.title} at ${job.company} - JairoJobs`;
+  }, [job.title, job.company]);
 
   return (
     <div className="min-h-screen bg-gray-50">

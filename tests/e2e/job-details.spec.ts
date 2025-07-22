@@ -43,7 +43,8 @@ test.describe('Job Details Page', () => {
     // Check for benefits if available
     const benefitsHeading = page.getByRole('heading', { name: /benefits/i });
     if (await benefitsHeading.isVisible()) {
-      const benefitsList = page.locator('text=Benefits').locator('..').locator('ul li');
+      // Look for benefit list items within the card containing Benefits heading
+      const benefitsList = page.locator('h2:has-text("Benefits")').locator('..').locator('..').locator('ul li');
       await expect(benefitsList.first()).toBeVisible();
     }
     
@@ -94,8 +95,11 @@ test.describe('Job Details Page', () => {
   });
 
   test('should handle job not found', async ({ page }) => {
-    // Navigate to non-existent job
-    await page.goto('/jobs/999999');
+    // Navigate directly to non-existent job
+    await page.goto('/jobs/999999', { waitUntil: 'domcontentloaded' });
+    
+    // Wait for not found page to render
+    await page.waitForSelector('text=/job not found/i', { timeout: 5000 });
     
     // Should show error message
     await expect(page.getByText(/job not found/i)).toBeVisible();
@@ -136,6 +140,13 @@ test.describe('Job Details Page', () => {
   test('should update browser title', async ({ page }) => {
     // Get job title
     const jobTitle = await jobDetailsPage.jobTitle.textContent();
+    
+    // Wait for title to update
+    await page.waitForFunction(
+      (expectedTitle) => document.title.toLowerCase().includes(expectedTitle.toLowerCase()),
+      jobTitle?.toLowerCase() || '',
+      { timeout: 5000 }
+    );
     
     // Browser title should include job title and company
     const title = await page.title();

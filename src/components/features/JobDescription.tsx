@@ -1,6 +1,6 @@
 import { Job } from '@/types';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Check } from 'lucide-react';
 
 interface JobDescriptionProps {
@@ -18,7 +18,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {/* About the Role */}
       <Card>
         <CardHeader>
-          <CardTitle>About the Role</CardTitle>
+          <h2 className="text-lg font-semibold leading-none tracking-tight">About the Role</h2>
         </CardHeader>
         <CardContent>
           <div className="space-y-4 text-gray-700">
@@ -33,7 +33,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.requirements.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Requirements</CardTitle>
+            <h2 className="text-lg font-semibold leading-none tracking-tight">Requirements</h2>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -52,7 +52,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.responsibilities.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Responsibilities</CardTitle>
+            <h2 className="text-lg font-semibold leading-none tracking-tight">Responsibilities</h2>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -71,7 +71,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.benefits.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Benefits</CardTitle>
+            <h2 className="text-lg font-semibold leading-none tracking-tight">Benefits</h2>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -90,7 +90,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.tags.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Required Skills</CardTitle>
+            <h2 className="text-lg font-semibold leading-none tracking-tight">Required Skills</h2>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">

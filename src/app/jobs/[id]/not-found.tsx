@@ -15,7 +15,7 @@ export default function JobNotFound() {
         </p>
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
           <Link href="/jobs">
-            <Button>Browse All Jobs</Button>
+            <Button>View All Jobs</Button>
           </Link>
           <Link href="/">
             <Button variant="outline">Go to Homepage</Button>
