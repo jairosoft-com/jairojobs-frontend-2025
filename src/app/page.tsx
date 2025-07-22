@@ -1,103 +1,218 @@
-import Image from 'next/image';
+'use client';
+
+import { SearchBar } from '@/components/features/SearchBar';
+import { JobCard } from '@/components/features/JobCard';
+import { getFeaturedJobs, jobCategories } from '@/lib/db/mockData';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-mono text-sm/6 sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{' '}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-mono font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const featuredJobs = getFeaturedJobs();
+  const router = useRouter();
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm font-medium text-background transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-primary/10 to-primary/5 py-16 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h1 className="mb-4 text-4xl font-bold text-gray-900 lg:text-5xl">
+              Find Your Dream Job Today
+            </h1>
+            <p className="mx-auto max-w-2xl text-xl text-gray-600">
+              Connect with top companies and discover thousands of job
+              opportunities that match your skills and aspirations
+            </p>
+          </div>
+
+          <div className="mx-auto max-w-4xl">
+            <SearchBar
+              onSearch={params => {
+                // Navigate to the jobs page with search params
+                const searchParams = new URLSearchParams();
+                if (params.query) searchParams.set('search', params.query);
+                if (params.location)
+                  searchParams.set('location', params.location);
+                router.push(`/jobs?${searchParams.toString()}`);
+              }}
             />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-gray-600">
+              Popular searches:
+              <Link
+                href="/jobs?search=React"
+                className="ml-2 text-primary hover:underline"
+              >
+                React
+              </Link>
+              ,
+              <Link
+                href="/jobs?search=Python"
+                className="ml-2 text-primary hover:underline"
+              >
+                Python
+              </Link>
+              ,
+              <Link
+                href="/jobs?search=Remote"
+                className="ml-2 text-primary hover:underline"
+              >
+                Remote
+              </Link>
+              ,
+              <Link
+                href="/jobs?search=Senior"
+                className="ml-2 text-primary hover:underline"
+              >
+                Senior Developer
+              </Link>
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* Featured Jobs Section */}
+      <section className="py-16" data-testid="featured-jobs">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="text-3xl font-bold text-gray-900">Featured Jobs</h2>
+            <Link href="/jobs?featured=true">
+              <Button variant="ghost">
+                View all jobs
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featuredJobs.slice(0, 6).map(job => (
+              <JobCard
+                key={job.id}
+                job={job}
+                onClick={() => {
+                  router.push(`/jobs/${job.id}`);
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Job Categories Section */}
+      <section className="bg-gray-50 py-16" data-testid="job-categories">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900">
+              Explore by Category
+            </h2>
+            <p className="text-lg text-gray-600">
+              Find the perfect role in your field
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+            {jobCategories.map(category => (
+              <Link
+                key={category.name}
+                href={`/jobs?category=${category.name.toLowerCase()}`}
+                className="group rounded-lg bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md"
+                data-testid="category-card"
+              >
+                <div className="mb-3 text-4xl">{category.icon}</div>
+                <h3 className="font-semibold text-gray-900 transition-colors group-hover:text-primary">
+                  {category.name}
+                </h3>
+                <p className="mt-1 text-sm text-gray-600">
+                  {category.count} jobs
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900">
+              How It Works
+            </h2>
+            <p className="text-lg text-gray-600">
+              Your journey to a new career in 3 simple steps
+            </p>
+          </div>
+
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                <span className="text-2xl font-bold text-primary">1</span>
+              </div>
+              <h3 className="mb-2 text-xl font-semibold">
+                Create Your Profile
+              </h3>
+              <p className="text-gray-600">
+                Sign up and showcase your skills, experience, and career goals
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                <span className="text-2xl font-bold text-primary">2</span>
+              </div>
+              <h3 className="mb-2 text-xl font-semibold">Search & Apply</h3>
+              <p className="text-gray-600">
+                Browse thousands of job opportunities and apply with one click
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                <span className="text-2xl font-bold text-primary">3</span>
+              </div>
+              <h3 className="mb-2 text-xl font-semibold">Get Hired</h3>
+              <p className="text-gray-600">
+                Connect with employers and land your dream job
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button size="lg" className="px-8">
+              Get Started Now
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-primary py-16 text-white">
+        <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="mb-4 text-3xl font-bold">
+            Ready to Take the Next Step?
+          </h2>
+          <p className="mx-auto mb-8 max-w-2xl text-xl opacity-90">
+            Join thousands of professionals who have found their perfect job
+            through JairoJobs
+          </p>
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
+            <Button size="lg" variant="secondary">
+              Post a Job
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white bg-white/10 text-white hover:bg-white/20"
+            >
+              Browse Jobs
+            </Button>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
