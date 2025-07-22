@@ -30,6 +30,7 @@ export function JobCard({ job, onClick }: JobCardProps) {
       className="cursor-pointer transition-shadow duration-300 hover:shadow-lg"
       onClick={() => onClick?.(job)}
       role="article"
+      data-testid="job-card"
     >
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">

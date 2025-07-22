@@ -74,7 +74,7 @@ export default function Home() {
       </section>
 
       {/* Featured Jobs Section */}
-      <section className="py-16">
+      <section className="py-16" data-testid="featured-jobs">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex items-center justify-between">
             <h2 className="text-3xl font-bold text-gray-900">Featured Jobs</h2>
@@ -101,7 +101,7 @@ export default function Home() {
       </section>
 
       {/* Job Categories Section */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-gray-50 py-16" data-testid="job-categories">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-gray-900">
@@ -118,6 +118,7 @@ export default function Home() {
                 key={category.name}
                 href={`/jobs?category=${category.name.toLowerCase()}`}
                 className="group rounded-lg bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md"
+                data-testid="category-card"
               >
                 <div className="mb-3 text-4xl">{category.icon}</div>
                 <h3 className="font-semibold text-gray-900 transition-colors group-hover:text-primary">
