@@ -1,4 +1,4 @@
-import { Job, Company, JobType, ExperienceLevel, RemoteOption, CompanySize, Industry } from '@/types';
+import { Job, Company } from '@/types';
 
 export const mockCompanies: Company[] = [
   {
