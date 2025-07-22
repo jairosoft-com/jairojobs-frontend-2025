@@ -469,6 +469,43 @@ export function getJobsByCompany(companyId: string): Job[] {
   return mockJobs.filter(job => job.companyId === companyId && job.active);
 }
 
+// Get related jobs based on tags, company, or location
+export function getRelatedJobs(jobId: string, limit: number = 4): Job[] {
+  const currentJob = getJobById(jobId);
+  if (!currentJob) return [];
+  
+  // Score each job based on similarity
+  const scoredJobs = mockJobs
+    .filter(job => job.id !== jobId && job.active)
+    .map(job => {
+      let score = 0;
+      
+      // Same company (highest weight)
+      if (job.companyId === currentJob.companyId) score += 5;
+      
+      // Same location
+      if (job.location === currentJob.location) score += 3;
+      
+      // Same job type
+      if (job.type === currentJob.type) score += 2;
+      
+      // Same experience level
+      if (job.experienceLevel === currentJob.experienceLevel) score += 2;
+      
+      // Matching tags
+      const matchingTags = job.tags.filter(tag => 
+        currentJob.tags.includes(tag)
+      ).length;
+      score += matchingTags;
+      
+      return { job, score };
+    })
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score);
+  
+  return scoredJobs.slice(0, limit).map(item => item.job);
+}
+
 // Job categories for browsing
 export const jobCategories = [
   { name: 'Engineering', icon: '💻', count: 142 },
