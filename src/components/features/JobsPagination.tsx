@@ -65,7 +65,7 @@ export function JobsPagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <Pagination>
+    <Pagination aria-label="Pagination">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

@@ -47,13 +47,15 @@ export function JobCard({ job, onClick }: JobCardProps) {
       </CardHeader>
       <CardContent>
         <div className="mb-4 flex flex-wrap gap-4 text-sm text-gray-600">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" data-testid="job-location">
             <MapPin className="h-4 w-4" />
             <span>{job.location}</span>
           </div>
           <div className="flex items-center gap-1">
             <Briefcase className="h-4 w-4" />
-            <span>{formatJobType(job.type)}</span>
+            <Badge variant="secondary" className="capitalize">
+              {formatJobType(job.type)}
+            </Badge>
           </div>
           <div className="flex items-center gap-1">
             <DollarSign className="h-4 w-4" />

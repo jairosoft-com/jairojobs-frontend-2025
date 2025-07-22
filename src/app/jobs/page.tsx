@@ -41,10 +41,10 @@ function JobsContent() {
     const location = searchParams.get('location');
     if (location) filters.location = location;
 
-    const types = searchParams.get('type');
+    const types = searchParams.get('types') || searchParams.get('type');
     if (types) filters.type = types.split(',') as JobType[];
 
-    const levels = searchParams.get('level');
+    const levels = searchParams.get('experienceLevels') || searchParams.get('level');
     if (levels)
       filters.experienceLevel = levels.split(',') as ExperienceLevel[];
 
@@ -60,30 +60,36 @@ function JobsContent() {
     return filters;
   };
 
+  const getInitialPage = (): number => {
+    const page = searchParams.get('page');
+    return page ? parseInt(page) : 1;
+  };
+
   const [filters, setFilters] = useState<JobFiltersType>(getInitialFilters());
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(getInitialPage());
+  const [itemsPerPage, setItemsPerPage] = useState(20);
 
-  // Update URL when filters change
+  // Update URL when filters or page change
   useEffect(() => {
     const params = new URLSearchParams();
 
     if (filters.search) params.set('search', filters.search);
     if (filters.location) params.set('location', filters.location);
-    if (filters.type?.length) params.set('type', filters.type.join(','));
+    if (filters.type?.length) params.set('types', filters.type.join(','));
     if (filters.experienceLevel?.length)
-      params.set('level', filters.experienceLevel.join(','));
+      params.set('experienceLevels', filters.experienceLevel.join(','));
     if (filters.remoteOption?.length)
       params.set('remote', filters.remoteOption.join(','));
     if (filters.salaryMin)
       params.set('salaryMin', filters.salaryMin.toString());
     if (filters.salaryMax)
       params.set('salaryMax', filters.salaryMax.toString());
+    if (currentPage > 1) params.set('page', currentPage.toString());
 
     const newUrl = params.toString() ? `?${params.toString()}` : '/jobs';
     window.history.replaceState({}, '', newUrl);
-  }, [filters]);
+  }, [filters, currentPage]);
 
   // Filter, sort, and paginate jobs
   const filteredJobs = filterJobs(filters);
