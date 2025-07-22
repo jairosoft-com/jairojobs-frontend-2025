@@ -15,6 +15,7 @@ import { JobDetailsHeader } from '@/components/features/JobDetailsHeader';
 import { CompanyCard } from '@/components/features/CompanyCard';
 import { JobDescription } from '@/components/features/JobDescription';
 import { RelatedJobs } from '@/components/features/RelatedJobs';
+import { ApplicationModal } from '@/components/features/ApplicationModal';
 import { getJobById, getCompanyById, getRelatedJobs } from '@/lib/db/mockData';
 
 interface JobDetailsPageProps {
@@ -104,15 +105,9 @@ export default function JobDetailsPage({ params }: JobDetailsPageProps) {
 
       {/* Mobile Apply Button - Sticky at bottom */}
       <div className="fixed bottom-0 left-0 right-0 z-10 border-t bg-white p-4 lg:hidden">
-        <button
-          className="h-12 w-full rounded-md bg-primary px-6 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          onClick={() => {
-            // TODO: Implement apply functionality
-            console.log('Apply clicked');
-          }}
-        >
-          Apply Now
-        </button>
+        <div className="w-full">
+          <ApplicationModal job={job} />
+        </div>
       </div>
     </div>
   );

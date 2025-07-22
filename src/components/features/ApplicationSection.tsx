@@ -49,6 +49,7 @@ interface ApplicationSectionProps {
   onSubmit: (data: ApplicationFormData) => void | Promise<void>;
   hasApplied?: boolean;
   isAuthenticated?: boolean;
+  hideTitle?: boolean;
 }
 
 export function ApplicationSection({
@@ -56,6 +57,7 @@ export function ApplicationSection({
   onSubmit,
   hasApplied = false,
   isAuthenticated = true,
+  hideTitle = false,
 }: ApplicationSectionProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -174,8 +176,8 @@ export function ApplicationSection({
   }
 
   return (
-    <div className="rounded-lg border bg-card p-6">
-      <h2 className="mb-6 text-xl font-semibold">Apply for this position</h2>
+    <div className={hideTitle ? "" : "rounded-lg border bg-card p-6"}>
+      {!hideTitle && <h2 className="mb-6 text-xl font-semibold">Apply for this position</h2>}
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
