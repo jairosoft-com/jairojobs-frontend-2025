@@ -5,14 +5,26 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Filter, X } from 'lucide-react';
-import { JobFilters as JobFiltersType, JobType, ExperienceLevel, RemoteOption } from '@/types';
-import { 
-  JOB_TYPE_OPTIONS, 
-  EXPERIENCE_LEVEL_OPTIONS, 
+import {
+  JobFilters as JobFiltersType,
+  JobType,
+  ExperienceLevel,
+  RemoteOption,
+} from '@/types';
+import {
+  JOB_TYPE_OPTIONS,
+  EXPERIENCE_LEVEL_OPTIONS,
   REMOTE_OPTION_OPTIONS,
-  SALARY_RANGES 
+  SALARY_RANGES,
 } from '@/lib/utils/filters';
 
 interface JobFiltersProps {
@@ -21,7 +33,11 @@ interface JobFiltersProps {
   isMobile?: boolean;
 }
 
-export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFiltersProps) {
+export function JobFilters({
+  filters,
+  onFiltersChange,
+  isMobile = false,
+}: JobFiltersProps) {
   const [localFilters, setLocalFilters] = useState<JobFiltersType>(filters);
 
   useEffect(() => {
@@ -30,27 +46,30 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
 
   const handleJobTypeChange = (type: JobType, checked: boolean) => {
     const currentTypes = localFilters.type || [];
-    const newTypes = checked 
+    const newTypes = checked
       ? [...currentTypes, type]
       : currentTypes.filter(t => t !== type);
-    
+
     const newFilters = {
       ...localFilters,
-      type: newTypes.length > 0 ? newTypes : undefined
+      type: newTypes.length > 0 ? newTypes : undefined,
     };
     setLocalFilters(newFilters);
     onFiltersChange(newFilters);
   };
 
-  const handleExperienceLevelChange = (level: ExperienceLevel, checked: boolean) => {
+  const handleExperienceLevelChange = (
+    level: ExperienceLevel,
+    checked: boolean,
+  ) => {
     const currentLevels = localFilters.experienceLevel || [];
-    const newLevels = checked 
+    const newLevels = checked
       ? [...currentLevels, level]
       : currentLevels.filter(l => l !== level);
-    
+
     const newFilters = {
       ...localFilters,
-      experienceLevel: newLevels.length > 0 ? newLevels : undefined
+      experienceLevel: newLevels.length > 0 ? newLevels : undefined,
     };
     setLocalFilters(newFilters);
     onFiltersChange(newFilters);
@@ -58,13 +77,13 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
 
   const handleRemoteOptionChange = (option: RemoteOption, checked: boolean) => {
     const currentOptions = localFilters.remoteOption || [];
-    const newOptions = checked 
+    const newOptions = checked
       ? [...currentOptions, option]
       : currentOptions.filter(o => o !== option);
-    
+
     const newFilters = {
       ...localFilters,
-      remoteOption: newOptions.length > 0 ? newOptions : undefined
+      remoteOption: newOptions.length > 0 ? newOptions : undefined,
     };
     setLocalFilters(newFilters);
     onFiltersChange(newFilters);
@@ -77,7 +96,7 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
     const newFilters = {
       ...localFilters,
       salaryMin: range.min,
-      salaryMax: range.max
+      salaryMax: range.max,
     };
     setLocalFilters(newFilters);
     onFiltersChange(newFilters);
@@ -91,23 +110,31 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
   const getActiveFilterCount = () => {
     let count = 0;
     if (localFilters.type?.length) count += localFilters.type.length;
-    if (localFilters.experienceLevel?.length) count += localFilters.experienceLevel.length;
-    if (localFilters.remoteOption?.length) count += localFilters.remoteOption.length;
-    if (localFilters.salaryMin !== undefined || localFilters.salaryMax !== undefined) count += 1;
+    if (localFilters.experienceLevel?.length)
+      count += localFilters.experienceLevel.length;
+    if (localFilters.remoteOption?.length)
+      count += localFilters.remoteOption.length;
+    if (
+      localFilters.salaryMin !== undefined ||
+      localFilters.salaryMax !== undefined
+    )
+      count += 1;
     return count;
   };
 
   const activeFilterCount = getActiveFilterCount();
-  const currentSalaryRange = SALARY_RANGES.find(
-    r => r.min === localFilters.salaryMin && r.max === localFilters.salaryMax
-  )?.value || '';
+  const currentSalaryRange =
+    SALARY_RANGES.find(
+      r => r.min === localFilters.salaryMin && r.max === localFilters.salaryMax,
+    )?.value || '';
 
   const filterContent = (
     <div className="space-y-6">
       {activeFilterCount > 0 && (
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">
-            {activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''} active
+            {activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''}{' '}
+            active
           </span>
           <Button
             variant="ghost"
@@ -129,13 +156,13 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
               <Checkbox
                 id={`job-type-${option.value}`}
                 checked={localFilters.type?.includes(option.value) || false}
-                onCheckedChange={(checked) => 
+                onCheckedChange={checked =>
                   handleJobTypeChange(option.value, checked as boolean)
                 }
               />
               <Label
                 htmlFor={`job-type-${option.value}`}
-                className="text-sm font-normal cursor-pointer"
+                className="cursor-pointer text-sm font-normal"
               >
                 {option.label}
               </Label>
@@ -152,14 +179,16 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
             <div key={option.value} className="flex items-center space-x-2">
               <Checkbox
                 id={`exp-level-${option.value}`}
-                checked={localFilters.experienceLevel?.includes(option.value) || false}
-                onCheckedChange={(checked) => 
+                checked={
+                  localFilters.experienceLevel?.includes(option.value) || false
+                }
+                onCheckedChange={checked =>
                   handleExperienceLevelChange(option.value, checked as boolean)
                 }
               />
               <Label
                 htmlFor={`exp-level-${option.value}`}
-                className="text-sm font-normal cursor-pointer"
+                className="cursor-pointer text-sm font-normal"
               >
                 {option.label}
               </Label>
@@ -176,14 +205,16 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
             <div key={option.value} className="flex items-center space-x-2">
               <Checkbox
                 id={`remote-option-${option.value}`}
-                checked={localFilters.remoteOption?.includes(option.value) || false}
-                onCheckedChange={(checked) => 
+                checked={
+                  localFilters.remoteOption?.includes(option.value) || false
+                }
+                onCheckedChange={checked =>
                   handleRemoteOptionChange(option.value, checked as boolean)
                 }
               />
               <Label
                 htmlFor={`remote-option-${option.value}`}
-                className="text-sm font-normal cursor-pointer"
+                className="cursor-pointer text-sm font-normal"
               >
                 {option.label}
               </Label>
@@ -195,13 +226,19 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
       {/* Salary Range */}
       <div>
         <h3 className="mb-3 text-sm font-semibold">Salary Range</h3>
-        <RadioGroup value={currentSalaryRange} onValueChange={handleSalaryRangeChange}>
+        <RadioGroup
+          value={currentSalaryRange}
+          onValueChange={handleSalaryRangeChange}
+        >
           {SALARY_RANGES.map(range => (
             <div key={range.value} className="flex items-center space-x-2">
-              <RadioGroupItem value={range.value} id={`salary-${range.value}`} />
+              <RadioGroupItem
+                value={range.value}
+                id={`salary-${range.value}`}
+              />
               <Label
                 htmlFor={`salary-${range.value}`}
-                className="text-sm font-normal cursor-pointer"
+                className="cursor-pointer text-sm font-normal"
               >
                 {range.label}
               </Label>
@@ -229,13 +266,9 @@ export function JobFilters({ filters, onFiltersChange, isMobile = false }: JobFi
         <SheetContent side="left" className="w-[300px] sm:w-[400px]">
           <SheetHeader>
             <SheetTitle>Filters</SheetTitle>
-            <SheetDescription>
-              Narrow down your job search
-            </SheetDescription>
+            <SheetDescription>Narrow down your job search</SheetDescription>
           </SheetHeader>
-          <div className="mt-6">
-            {filterContent}
-          </div>
+          <div className="mt-6">{filterContent}</div>
         </SheetContent>
       </Sheet>
     );

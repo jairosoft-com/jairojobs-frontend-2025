@@ -1,5 +1,10 @@
-export type CompanySize = 'startup' | 'small' | 'medium' | 'large' | 'enterprise';
-export type Industry = 
+export type CompanySize =
+  | 'startup'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'enterprise';
+export type Industry =
   | 'technology'
   | 'healthcare'
   | 'finance'

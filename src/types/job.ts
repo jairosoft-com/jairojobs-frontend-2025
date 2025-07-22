@@ -1,4 +1,9 @@
-export type JobType = 'full-time' | 'part-time' | 'contract' | 'internship' | 'temporary';
+export type JobType =
+  | 'full-time'
+  | 'part-time'
+  | 'contract'
+  | 'internship'
+  | 'temporary';
 export type ExperienceLevel = 'entry' | 'mid' | 'senior' | 'lead' | 'executive';
 export type RemoteOption = 'remote' | 'hybrid' | 'onsite';
 

@@ -5,7 +5,8 @@ export const mockCompanies: Company[] = [
     id: '1',
     name: 'TechCorp Solutions',
     logo: '/companies/techcorp.png',
-    description: 'Leading technology solutions provider specializing in cloud infrastructure and enterprise software.',
+    description:
+      'Leading technology solutions provider specializing in cloud infrastructure and enterprise software.',
     website: 'https://techcorp.example.com',
     industry: 'technology',
     size: 'large',
@@ -16,7 +17,8 @@ export const mockCompanies: Company[] = [
       min: 1000,
       max: 5000,
     },
-    culture: 'Innovation-driven culture with focus on work-life balance and continuous learning.',
+    culture:
+      'Innovation-driven culture with focus on work-life balance and continuous learning.',
     benefits: [
       'Comprehensive health insurance',
       'Unlimited PTO',
@@ -25,7 +27,14 @@ export const mockCompanies: Company[] = [
       'Professional development budget',
       'Stock options',
     ],
-    techStack: ['React', 'Node.js', 'AWS', 'Python', 'Kubernetes', 'TypeScript'],
+    techStack: [
+      'React',
+      'Node.js',
+      'AWS',
+      'Python',
+      'Kubernetes',
+      'TypeScript',
+    ],
     socialLinks: {
       linkedin: 'https://linkedin.com/company/techcorp',
       twitter: 'https://twitter.com/techcorp',
@@ -37,7 +46,8 @@ export const mockCompanies: Company[] = [
     id: '2',
     name: 'StartupHub',
     logo: '/companies/startuphub.png',
-    description: 'Fast-growing fintech startup revolutionizing digital payments.',
+    description:
+      'Fast-growing fintech startup revolutionizing digital payments.',
     website: 'https://startuphub.example.com',
     industry: 'finance',
     size: 'startup',
@@ -48,7 +58,8 @@ export const mockCompanies: Company[] = [
       min: 50,
       max: 100,
     },
-    culture: 'Fast-paced, collaborative environment with entrepreneurial spirit.',
+    culture:
+      'Fast-paced, collaborative environment with entrepreneurial spirit.',
     benefits: [
       'Health insurance',
       'Flexible hours',
@@ -67,7 +78,8 @@ export const mockCompanies: Company[] = [
     id: '3',
     name: 'Global Health Systems',
     logo: '/companies/globalhealth.png',
-    description: 'Healthcare technology company improving patient care through innovative solutions.',
+    description:
+      'Healthcare technology company improving patient care through innovative solutions.',
     website: 'https://globalhealth.example.com',
     industry: 'healthcare',
     size: 'medium',
@@ -78,7 +90,8 @@ export const mockCompanies: Company[] = [
       min: 300,
       max: 500,
     },
-    culture: 'Mission-driven organization focused on making healthcare accessible.',
+    culture:
+      'Mission-driven organization focused on making healthcare accessible.',
     benefits: [
       'Excellent health coverage',
       'Parental leave',
@@ -257,7 +270,7 @@ export const mockJobs: Job[] = [
     },
     description: `Start your career with TechCorp as a Junior Backend Developer. This is an excellent opportunity for recent graduates or early-career developers to learn from experienced engineers and work on impactful projects.`,
     requirements: [
-      'Bachelor\'s degree in Computer Science or related field',
+      "Bachelor's degree in Computer Science or related field",
       'Understanding of programming fundamentals',
       'Knowledge of at least one backend language (Python, Java, or Node.js)',
       'Familiarity with databases and SQL',
@@ -337,15 +350,17 @@ export const mockJobs: Job[] = [
 // Helper functions to filter and search jobs
 export function searchJobs(query: string, location?: string): Job[] {
   return mockJobs.filter(job => {
-    const matchesQuery = query === '' || 
+    const matchesQuery =
+      query === '' ||
       job.title.toLowerCase().includes(query.toLowerCase()) ||
       job.company.toLowerCase().includes(query.toLowerCase()) ||
       job.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
-    
-    const matchesLocation = !location || 
+
+    const matchesLocation =
+      !location ||
       job.location.toLowerCase().includes(location.toLowerCase()) ||
       job.remoteOption === 'remote';
-    
+
     return matchesQuery && matchesLocation;
   });
 }
@@ -355,48 +370,48 @@ export function filterJobs(filters: JobFilters): Job[] {
   return mockJobs.filter(job => {
     // Active jobs only
     if (!job.active) return false;
-    
+
     // Search query
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
-      const matchesSearch = 
+      const matchesSearch =
         job.title.toLowerCase().includes(searchLower) ||
         job.company.toLowerCase().includes(searchLower) ||
         job.description.toLowerCase().includes(searchLower) ||
         job.tags.some(tag => tag.toLowerCase().includes(searchLower));
       if (!matchesSearch) return false;
     }
-    
+
     // Location
     if (filters.location) {
       const locationLower = filters.location.toLowerCase();
-      const matchesLocation = 
+      const matchesLocation =
         job.location.toLowerCase().includes(locationLower) ||
         job.remoteOption === 'remote';
       if (!matchesLocation) return false;
     }
-    
+
     // Job type
     if (filters.type && filters.type.length > 0) {
       if (!filters.type.includes(job.type)) return false;
     }
-    
+
     // Experience level
     if (filters.experienceLevel && filters.experienceLevel.length > 0) {
       if (!filters.experienceLevel.includes(job.experienceLevel)) return false;
     }
-    
+
     // Remote option
     if (filters.remoteOption && filters.remoteOption.length > 0) {
       if (!filters.remoteOption.includes(job.remoteOption)) return false;
     }
-    
+
     // Salary range
     if (filters.salaryMin !== undefined || filters.salaryMax !== undefined) {
       // Convert to yearly for comparison
       let yearlyMin = job.salary.min;
       let yearlyMax = job.salary.max;
-      
+
       if (job.salary.period === 'hourly') {
         yearlyMin = job.salary.min * 2080; // 40 hours/week * 52 weeks
         yearlyMax = job.salary.max * 2080;
@@ -404,19 +419,21 @@ export function filterJobs(filters: JobFilters): Job[] {
         yearlyMin = job.salary.min * 12;
         yearlyMax = job.salary.max * 12;
       }
-      
-      if (filters.salaryMin !== undefined && yearlyMax < filters.salaryMin) return false;
-      if (filters.salaryMax !== undefined && yearlyMin > filters.salaryMax) return false;
+
+      if (filters.salaryMin !== undefined && yearlyMax < filters.salaryMin)
+        return false;
+      if (filters.salaryMax !== undefined && yearlyMin > filters.salaryMax)
+        return false;
     }
-    
+
     // Tags
     if (filters.tags && filters.tags.length > 0) {
-      const hasMatchingTag = filters.tags.some(tag => 
-        job.tags.some(jobTag => jobTag.toLowerCase() === tag.toLowerCase())
+      const hasMatchingTag = filters.tags.some(tag =>
+        job.tags.some(jobTag => jobTag.toLowerCase() === tag.toLowerCase()),
       );
       if (!hasMatchingTag) return false;
     }
-    
+
     return true;
   });
 }
@@ -425,11 +442,11 @@ export type SortOption = 'relevance' | 'date' | 'salary';
 
 export function sortJobs(jobs: Job[], sortBy: SortOption = 'relevance'): Job[] {
   const sorted = [...jobs];
-  
+
   switch (sortBy) {
     case 'date':
       return sorted.sort((a, b) => b.postedAt.getTime() - a.postedAt.getTime());
-    
+
     case 'salary':
       return sorted.sort((a, b) => {
         // Convert to yearly for comparison
@@ -441,7 +458,7 @@ export function sortJobs(jobs: Job[], sortBy: SortOption = 'relevance'): Job[] {
         };
         return getYearlySalary(b) - getYearlySalary(a);
       });
-    
+
     case 'relevance':
     default:
       // Featured jobs first, then by date
@@ -473,36 +490,36 @@ export function getJobsByCompany(companyId: string): Job[] {
 export function getRelatedJobs(jobId: string, limit: number = 4): Job[] {
   const currentJob = getJobById(jobId);
   if (!currentJob) return [];
-  
+
   // Score each job based on similarity
   const scoredJobs = mockJobs
     .filter(job => job.id !== jobId && job.active)
     .map(job => {
       let score = 0;
-      
+
       // Same company (highest weight)
       if (job.companyId === currentJob.companyId) score += 5;
-      
+
       // Same location
       if (job.location === currentJob.location) score += 3;
-      
+
       // Same job type
       if (job.type === currentJob.type) score += 2;
-      
+
       // Same experience level
       if (job.experienceLevel === currentJob.experienceLevel) score += 2;
-      
+
       // Matching tags
-      const matchingTags = job.tags.filter(tag => 
-        currentJob.tags.includes(tag)
+      const matchingTags = job.tags.filter(tag =>
+        currentJob.tags.includes(tag),
       ).length;
       score += matchingTags;
-      
+
       return { job, score };
     })
     .filter(item => item.score > 0)
     .sort((a, b) => b.score - a.score);
-  
+
   return scoredJobs.slice(0, limit).map(item => item.job);
 }
 
@@ -519,11 +536,15 @@ export const jobCategories = [
 ];
 
 // Pagination helper
-export function paginateJobs(jobs: Job[], page: number, itemsPerPage: number = 10) {
+export function paginateJobs(
+  jobs: Job[],
+  page: number,
+  itemsPerPage: number = 10,
+) {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedJobs = jobs.slice(startIndex, endIndex);
-  
+
   return {
     jobs: paginatedJobs,
     totalPages: Math.ceil(jobs.length / itemsPerPage),

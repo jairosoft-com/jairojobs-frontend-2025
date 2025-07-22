@@ -9,7 +9,9 @@ interface JobDescriptionProps {
 
 export function JobDescription({ job }: JobDescriptionProps) {
   // Split description by line breaks to preserve formatting
-  const descriptionParagraphs = job.description.split('\n').filter(p => p.trim());
+  const descriptionParagraphs = job.description
+    .split('\n')
+    .filter(p => p.trim());
 
   return (
     <div className="space-y-6">
@@ -37,7 +39,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
             <ul className="space-y-3">
               {job.requirements.map((req, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <Check className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" />
                   <span className="text-gray-700">{req}</span>
                 </li>
               ))}
@@ -56,7 +58,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
             <ul className="space-y-3">
               {job.responsibilities.map((resp, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <span className="text-primary font-bold">•</span>
+                  <span className="font-bold text-primary">•</span>
                   <span className="text-gray-700">{resp}</span>
                 </li>
               ))}
@@ -75,7 +77,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
             <ul className="space-y-3">
               {job.benefits.map((benefit, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <span className="text-primary font-bold">✓</span>
+                  <span className="font-bold text-primary">✓</span>
                   <span className="text-gray-700">{benefit}</span>
                 </li>
               ))}
@@ -92,7 +94,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {job.tags.map((tag) => (
+              {job.tags.map(tag => (
                 <Badge key={tag} variant="secondary" className="text-sm">
                   {tag}
                 </Badge>

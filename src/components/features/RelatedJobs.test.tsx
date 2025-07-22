@@ -86,13 +86,13 @@ const mockJobs: Job[] = [
 describe('RelatedJobs', () => {
   it('renders the component title', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     expect(screen.getByText('Similar Jobs')).toBeInTheDocument();
   });
 
   it('displays all provided jobs', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     expect(screen.getByText('Frontend Developer')).toBeInTheDocument();
     expect(screen.getByText('Backend Engineer')).toBeInTheDocument();
     expect(screen.getByText('DevOps Engineer')).toBeInTheDocument();
@@ -100,14 +100,14 @@ describe('RelatedJobs', () => {
 
   it('shows company names for each job', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     expect(screen.getAllByText('TechCorp')).toHaveLength(2);
     expect(screen.getByText('StartupHub')).toBeInTheDocument();
   });
 
   it('displays job locations', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
     expect(screen.getByText('New York, NY')).toBeInTheDocument();
     expect(screen.getByText('Austin, TX')).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe('RelatedJobs', () => {
 
   it('shows salary ranges', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     expect(screen.getByText('$100k - $140k/year')).toBeInTheDocument();
     expect(screen.getByText('$130k - $180k/year')).toBeInTheDocument();
     expect(screen.getByText('$150k - $200k/year')).toBeInTheDocument();
@@ -123,7 +123,7 @@ describe('RelatedJobs', () => {
 
   it('displays job type badges', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     // Full Time appears twice
     expect(screen.getAllByText('Full Time')).toHaveLength(2);
     expect(screen.getByText('Contract')).toBeInTheDocument();
@@ -131,7 +131,7 @@ describe('RelatedJobs', () => {
 
   it('displays tags for each job', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
+
     // Check that tags are displayed
     expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('TypeScript')).toBeInTheDocument();
@@ -141,14 +141,14 @@ describe('RelatedJobs', () => {
 
   it('renders custom title when provided', () => {
     render(<RelatedJobs jobs={mockJobs} title="More Jobs at TechCorp" />);
-    
+
     expect(screen.getByText('More Jobs at TechCorp')).toBeInTheDocument();
     expect(screen.queryByText('Similar Jobs')).not.toBeInTheDocument();
   });
 
   it('handles empty jobs array', () => {
     render(<RelatedJobs jobs={[]} />);
-    
+
     expect(screen.getByText('No similar jobs found')).toBeInTheDocument();
   });
 
@@ -159,7 +159,7 @@ describe('RelatedJobs', () => {
       { ...mockJobs[0], id: '5', title: 'Job 5' },
     ];
     render(<RelatedJobs jobs={manyJobs} />);
-    
+
     // Should only show first 4 jobs
     expect(screen.getByText('Frontend Developer')).toBeInTheDocument();
     expect(screen.getByText('Backend Engineer')).toBeInTheDocument();
@@ -175,13 +175,17 @@ describe('RelatedJobs', () => {
       { ...mockJobs[0], id: '5', title: 'Job 5' },
     ];
     render(<RelatedJobs jobs={manyJobs} />);
-    
-    expect(screen.getByRole('link', { name: /view all jobs/i })).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('link', { name: /view all jobs/i }),
+    ).toBeInTheDocument();
   });
 
   it('does not show view all button when jobs are 4 or less', () => {
     render(<RelatedJobs jobs={mockJobs} />);
-    
-    expect(screen.queryByRole('link', { name: /view all jobs/i })).not.toBeInTheDocument();
+
+    expect(
+      screen.queryByRole('link', { name: /view all jobs/i }),
+    ).not.toBeInTheDocument();
   });
 });

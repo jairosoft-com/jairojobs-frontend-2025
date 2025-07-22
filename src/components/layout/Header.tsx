@@ -20,15 +20,15 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
-            <Link 
-              href="/jobs" 
+          <nav className="hidden items-center gap-6 lg:flex">
+            <Link
+              href="/jobs"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Find Jobs
             </Link>
-            <Link 
-              href="/companies" 
+            <Link
+              href="/companies"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Companies
@@ -36,13 +36,11 @@ export function Header() {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden items-center gap-4 lg:flex">
             <Button variant="outline" size="sm">
               Sign In
             </Button>
-            <Button size="sm">
-              Sign Up
-            </Button>
+            <Button size="sm">Sign Up</Button>
           </div>
 
           {/* Mobile Menu Button */}

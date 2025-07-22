@@ -8,7 +8,10 @@ export const JOB_TYPE_OPTIONS: { value: JobType; label: string }[] = [
   { value: 'temporary', label: 'Temporary' },
 ];
 
-export const EXPERIENCE_LEVEL_OPTIONS: { value: ExperienceLevel; label: string }[] = [
+export const EXPERIENCE_LEVEL_OPTIONS: {
+  value: ExperienceLevel;
+  label: string;
+}[] = [
   { value: 'entry', label: 'Entry Level' },
   { value: 'mid', label: 'Mid Level' },
   { value: 'senior', label: 'Senior Level' },

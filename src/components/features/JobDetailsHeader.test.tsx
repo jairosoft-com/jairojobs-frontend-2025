@@ -53,14 +53,14 @@ const mockCompany: Company = {
 describe('JobDetailsHeader', () => {
   it('renders job title and company name', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText('Senior Software Engineer')).toBeInTheDocument();
     expect(screen.getByText('TechCorp')).toBeInTheDocument();
   });
 
   it('displays company logo when available', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     const logo = screen.getByAltText('TechCorp logo');
     expect(logo).toBeInTheDocument();
     // Next.js Image component transforms the src
@@ -70,68 +70,69 @@ describe('JobDetailsHeader', () => {
 
   it('shows location and remote option', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
     expect(screen.getByText('Hybrid')).toBeInTheDocument();
   });
 
   it('displays job type and experience level badges', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText('Full Time')).toBeInTheDocument();
     expect(screen.getByText('Senior Level')).toBeInTheDocument();
   });
 
   it('shows salary range', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText('$150k - $200k/year')).toBeInTheDocument();
   });
 
   it('displays applicant count', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText('45 applicants')).toBeInTheDocument();
   });
 
   it('shows posted date', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText(/Posted/)).toBeInTheDocument();
   });
 
   it('displays application deadline', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText(/Deadline:/)).toBeInTheDocument();
     // Check for formatted date - the exact format may vary
-    const deadlineText = screen.getByText(/Deadline:/).parentElement?.textContent;
+    const deadlineText =
+      screen.getByText(/Deadline:/).parentElement?.textContent;
     expect(deadlineText).toContain('2025');
   });
 
   it('shows featured badge when job is featured', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     expect(screen.getByText('Featured')).toBeInTheDocument();
   });
 
   it('does not show featured badge when job is not featured', () => {
     const regularJob = { ...mockJob, featured: false };
     render(<JobDetailsHeader job={regularJob} company={mockCompany} />);
-    
+
     expect(screen.queryByText('Featured')).not.toBeInTheDocument();
   });
 
   it('renders apply button', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     const applyButton = screen.getByRole('button', { name: /apply now/i });
     expect(applyButton).toBeInTheDocument();
   });
 
   it('renders save job button', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
-    
+
     const saveButton = screen.getByRole('button', { name: /save/i });
     expect(saveButton).toBeInTheDocument();
   });
@@ -141,22 +142,24 @@ describe('JobDetailsHeader', () => {
       ...mockJob,
       applicationDeadline: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
     };
-    render(<JobDetailsHeader job={jobWithSoonDeadline} company={mockCompany} />);
-    
+    render(
+      <JobDetailsHeader job={jobWithSoonDeadline} company={mockCompany} />,
+    );
+
     expect(screen.getByText(/Deadline in \d+ days/)).toBeInTheDocument();
   });
 
   it('handles missing application deadline', () => {
     const jobWithoutDeadline = { ...mockJob, applicationDeadline: undefined };
     render(<JobDetailsHeader job={jobWithoutDeadline} company={mockCompany} />);
-    
+
     expect(screen.queryByText(/Deadline:/)).not.toBeInTheDocument();
   });
 
   it('handles missing company logo', () => {
     const companyWithoutLogo = { ...mockCompany, logo: undefined };
     render(<JobDetailsHeader job={mockJob} company={companyWithoutLogo} />);
-    
+
     expect(screen.queryByAltText('TechCorp logo')).not.toBeInTheDocument();
   });
 });

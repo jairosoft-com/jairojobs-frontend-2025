@@ -1,44 +1,61 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { JobCard } from '@/components/features/JobCard';
 import { JobFilters } from '@/components/features/JobFilters';
 import { JobsPagination } from '@/components/features/JobsPagination';
 import { SearchBar } from '@/components/features/SearchBar';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { filterJobs, sortJobs, paginateJobs, SortOption } from '@/lib/db/mockData';
-import { JobFilters as JobFiltersType, JobType, ExperienceLevel, RemoteOption } from '@/types';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  filterJobs,
+  sortJobs,
+  paginateJobs,
+  SortOption,
+} from '@/lib/db/mockData';
+import {
+  JobFilters as JobFiltersType,
+  JobType,
+  ExperienceLevel,
+  RemoteOption,
+} from '@/types';
 import { SORT_OPTIONS, ITEMS_PER_PAGE_OPTIONS } from '@/lib/utils/filters';
 
-export default function JobsPage() {
+function JobsContent() {
   const searchParams = useSearchParams();
-  
+
   // Parse initial filters from URL
   const getInitialFilters = (): JobFiltersType => {
     const filters: JobFiltersType = {};
-    
+
     const search = searchParams.get('q');
     if (search) filters.search = search;
-    
+
     const location = searchParams.get('location');
     if (location) filters.location = location;
-    
+
     const types = searchParams.get('type');
     if (types) filters.type = types.split(',') as JobType[];
-    
+
     const levels = searchParams.get('level');
-    if (levels) filters.experienceLevel = levels.split(',') as ExperienceLevel[];
-    
+    if (levels)
+      filters.experienceLevel = levels.split(',') as ExperienceLevel[];
+
     const remote = searchParams.get('remote');
     if (remote) filters.remoteOption = remote.split(',') as RemoteOption[];
-    
+
     const salaryMin = searchParams.get('salaryMin');
     if (salaryMin) filters.salaryMin = parseInt(salaryMin);
-    
+
     const salaryMax = searchParams.get('salaryMax');
     if (salaryMax) filters.salaryMax = parseInt(salaryMax);
-    
+
     return filters;
   };
 
@@ -50,15 +67,19 @@ export default function JobsPage() {
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
-    
+
     if (filters.search) params.set('q', filters.search);
     if (filters.location) params.set('location', filters.location);
     if (filters.type?.length) params.set('type', filters.type.join(','));
-    if (filters.experienceLevel?.length) params.set('level', filters.experienceLevel.join(','));
-    if (filters.remoteOption?.length) params.set('remote', filters.remoteOption.join(','));
-    if (filters.salaryMin) params.set('salaryMin', filters.salaryMin.toString());
-    if (filters.salaryMax) params.set('salaryMax', filters.salaryMax.toString());
-    
+    if (filters.experienceLevel?.length)
+      params.set('level', filters.experienceLevel.join(','));
+    if (filters.remoteOption?.length)
+      params.set('remote', filters.remoteOption.join(','));
+    if (filters.salaryMin)
+      params.set('salaryMin', filters.salaryMin.toString());
+    if (filters.salaryMax)
+      params.set('salaryMax', filters.salaryMax.toString());
+
     const newUrl = params.toString() ? `?${params.toString()}` : '/jobs';
     window.history.replaceState({}, '', newUrl);
   }, [filters]);
@@ -73,14 +94,17 @@ export default function JobsPage() {
     setCurrentPage(1); // Reset to first page when filters change
   }, []);
 
-  const handleSearch = useCallback((searchParams: { query: string; location: string }) => {
-    setFilters(prev => ({
-      ...prev,
-      search: searchParams.query,
-      location: searchParams.location
-    }));
-    setCurrentPage(1);
-  }, []);
+  const handleSearch = useCallback(
+    (searchParams: { query: string; location: string }) => {
+      setFilters(prev => ({
+        ...prev,
+        search: searchParams.query,
+        location: searchParams.location,
+      }));
+      setCurrentPage(1);
+    },
+    [],
+  );
 
   const handleSortChange = (value: string) => {
     setSortBy(value as SortOption);
@@ -94,8 +118,8 @@ export default function JobsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Search Header */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="border-b bg-white">
+        <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
           <SearchBar
             onSearch={handleSearch}
             defaultQuery={filters.search || ''}
@@ -104,7 +128,7 @@ export default function JobsPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-4 lg:gap-8">
           {/* Filters Sidebar - Desktop */}
           <aside className="hidden lg:block">
@@ -120,7 +144,7 @@ export default function JobsPage() {
           <main className="lg:col-span-3">
             {/* Results Header */}
             <div className="mb-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
                   {/* Mobile Filters Button */}
                   <div className="lg:hidden">
@@ -130,9 +154,10 @@ export default function JobsPage() {
                       isMobile={true}
                     />
                   </div>
-                  
+
                   <h1 className="text-2xl font-semibold text-gray-900">
-                    {paginatedData.totalJobs} {paginatedData.totalJobs === 1 ? 'job' : 'jobs'} found
+                    {paginatedData.totalJobs}{' '}
+                    {paginatedData.totalJobs === 1 ? 'job' : 'jobs'} found
                   </h1>
                 </div>
 
@@ -152,13 +177,19 @@ export default function JobsPage() {
                   </Select>
 
                   {/* Items per page */}
-                  <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                  <Select
+                    value={itemsPerPage.toString()}
+                    onValueChange={handleItemsPerPageChange}
+                  >
                     <SelectTrigger className="w-[140px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       {ITEMS_PER_PAGE_OPTIONS.map(option => (
-                        <SelectItem key={option.value} value={option.value.toString()}>
+                        <SelectItem
+                          key={option.value}
+                          value={option.value.toString()}
+                        >
                           {option.label}
                         </SelectItem>
                       ))}
@@ -171,7 +202,7 @@ export default function JobsPage() {
             {/* Job Listings */}
             {paginatedData.jobs.length > 0 ? (
               <>
-                <div className="space-y-4 mb-8">
+                <div className="mb-8 space-y-4">
                   {paginatedData.jobs.map(job => (
                     <JobCard
                       key={job.id}
@@ -193,8 +224,8 @@ export default function JobsPage() {
                 )}
               </>
             ) : (
-              <div className="text-center py-12">
-                <p className="text-lg text-gray-600 mb-4">
+              <div className="py-12 text-center">
+                <p className="mb-4 text-lg text-gray-600">
                   No jobs found matching your criteria
                 </p>
                 <p className="text-gray-500">
@@ -206,5 +237,22 @@ export default function JobsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function JobsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-gray-900"></div>
+            <p className="mt-4 text-gray-600">Loading jobs...</p>
+          </div>
+        </div>
+      }
+    >
+      <JobsContent />
+    </Suspense>
   );
 }

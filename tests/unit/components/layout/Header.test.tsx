@@ -12,11 +12,11 @@ describe('Header', () => {
 
   it('should render navigation links', () => {
     render(<Header />);
-    
+
     const findJobsLink = screen.getByRole('link', { name: /find jobs/i });
     expect(findJobsLink).toBeInTheDocument();
     expect(findJobsLink).toHaveAttribute('href', '/jobs');
-    
+
     const companiesLink = screen.getByRole('link', { name: /companies/i });
     expect(companiesLink).toBeInTheDocument();
     expect(companiesLink).toHaveAttribute('href', '/companies');
@@ -24,17 +24,17 @@ describe('Header', () => {
 
   it('should render sign in and sign up buttons', () => {
     render(<Header />);
-    
+
     const signInButton = screen.getByRole('button', { name: /sign in/i });
     expect(signInButton).toBeInTheDocument();
-    
+
     const signUpButton = screen.getByRole('button', { name: /sign up/i });
     expect(signUpButton).toBeInTheDocument();
   });
 
   it('should have a mobile menu button that is visible on mobile', () => {
     render(<Header />);
-    
+
     const mobileMenuButton = screen.getByRole('button', { name: /menu/i });
     expect(mobileMenuButton).toBeInTheDocument();
     expect(mobileMenuButton).toHaveClass('lg:hidden');
@@ -43,10 +43,10 @@ describe('Header', () => {
   it('should open mobile navigation when menu button is clicked', async () => {
     const user = userEvent.setup();
     render(<Header />);
-    
+
     const mobileMenuButton = screen.getByRole('button', { name: /menu/i });
     await user.click(mobileMenuButton);
-    
+
     // The Header should trigger the mobile nav
     // We'll test the actual mobile nav component separately
     expect(mobileMenuButton).toBeInTheDocument();

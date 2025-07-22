@@ -3,21 +3,26 @@
 import { Job, Company } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  MapPin, 
-  Building2, 
-  DollarSign, 
-  Users, 
-  Clock, 
+import {
+  MapPin,
+  Building2,
+  DollarSign,
+  Users,
+  Clock,
   Calendar,
   Bookmark,
-  Share2
+  Share2,
 } from 'lucide-react';
-import { formatDate, getTimeAgo, getDaysUntil, isDeadlineSoon } from '@/lib/utils/date';
-import { 
-  JOB_TYPE_OPTIONS, 
-  EXPERIENCE_LEVEL_OPTIONS, 
-  REMOTE_OPTION_OPTIONS 
+import {
+  formatDate,
+  getTimeAgo,
+  getDaysUntil,
+  isDeadlineSoon,
+} from '@/lib/utils/date';
+import {
+  JOB_TYPE_OPTIONS,
+  EXPERIENCE_LEVEL_OPTIONS,
+  REMOTE_OPTION_OPTIONS,
 } from '@/lib/utils/filters';
 import Image from 'next/image';
 
@@ -27,13 +32,24 @@ interface JobDetailsHeaderProps {
 }
 
 export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
-  const jobTypeLabel = JOB_TYPE_OPTIONS.find(opt => opt.value === job.type)?.label || job.type;
-  const experienceLevelLabel = EXPERIENCE_LEVEL_OPTIONS.find(opt => opt.value === job.experienceLevel)?.label || job.experienceLevel;
-  const remoteOptionLabel = REMOTE_OPTION_OPTIONS.find(opt => opt.value === job.remoteOption)?.label || job.remoteOption;
-  
+  const jobTypeLabel =
+    JOB_TYPE_OPTIONS.find(opt => opt.value === job.type)?.label || job.type;
+  const experienceLevelLabel =
+    EXPERIENCE_LEVEL_OPTIONS.find(opt => opt.value === job.experienceLevel)
+      ?.label || job.experienceLevel;
+  const remoteOptionLabel =
+    REMOTE_OPTION_OPTIONS.find(opt => opt.value === job.remoteOption)?.label ||
+    job.remoteOption;
+
   const formatSalary = () => {
-    const min = job.salary.min >= 1000 ? `${Math.round(job.salary.min / 1000)}k` : job.salary.min;
-    const max = job.salary.max >= 1000 ? `${Math.round(job.salary.max / 1000)}k` : job.salary.max;
+    const min =
+      job.salary.min >= 1000
+        ? `${Math.round(job.salary.min / 1000)}k`
+        : job.salary.min;
+    const max =
+      job.salary.max >= 1000
+        ? `${Math.round(job.salary.max / 1000)}k`
+        : job.salary.max;
     return `$${min} - $${max}/${job.salary.period === 'yearly' ? 'year' : job.salary.period}`;
   };
 
@@ -53,33 +69,33 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
   };
 
   return (
-    <div className="bg-white border-b">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="border-b bg-white">
+      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {/* Company and Title */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="mb-6 flex items-start justify-between">
           <div className="flex items-start gap-4">
             {company.logo && (
-              <div className="relative w-16 h-16 flex-shrink-0">
+              <div className="relative h-16 w-16 flex-shrink-0">
                 <Image
                   src={company.logo}
                   alt={`${company.name} logo`}
                   fill
-                  className="object-contain rounded-lg"
+                  className="rounded-lg object-contain"
                 />
               </div>
             )}
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{job.title}</h1>
+              <h1 className="mb-2 text-3xl font-bold text-gray-900">
+                {job.title}
+              </h1>
               <p className="text-xl text-gray-600">{company.name}</p>
             </div>
           </div>
-          {job.featured && (
-            <Badge variant="default">Featured</Badge>
-          )}
+          {job.featured && <Badge variant="default">Featured</Badge>}
         </div>
 
         {/* Job Meta Information */}
-        <div className="flex flex-wrap gap-4 mb-6 text-gray-600">
+        <div className="mb-6 flex flex-wrap gap-4 text-gray-600">
           <div className="flex items-center gap-1">
             <MapPin className="h-4 w-4" />
             <span>{job.location}</span>
@@ -101,13 +117,13 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
         </div>
 
         {/* Badges */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="mb-6 flex flex-wrap gap-2">
           <Badge variant="secondary">{jobTypeLabel}</Badge>
           <Badge variant="outline">{experienceLevelLabel}</Badge>
         </div>
 
         {/* Timeline Information */}
-        <div className="flex flex-wrap gap-4 mb-8 text-sm text-gray-600">
+        <div className="mb-8 flex flex-wrap gap-4 text-sm text-gray-600">
           <div className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
             <span>Posted {getTimeAgo(job.postedAt)}</span>
@@ -118,7 +134,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
               <span>
                 Deadline: {formatDate(job.applicationDeadline)}
                 {isDeadlineSoon(job.applicationDeadline) && (
-                  <span className="text-red-600 font-medium ml-1">
+                  <span className="ml-1 font-medium text-red-600">
                     (Deadline in {getDaysUntil(job.applicationDeadline)} days)
                   </span>
                 )}
@@ -128,28 +144,20 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button 
-            size="lg" 
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button
+            size="lg"
             onClick={handleApply}
             className="flex-1 sm:flex-initial"
           >
             Apply Now
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={handleSave}
-          >
-            <Bookmark className="h-4 w-4 mr-2" />
+          <Button variant="outline" size="lg" onClick={handleSave}>
+            <Bookmark className="mr-2 h-4 w-4" />
             Save
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg"
-            onClick={handleShare}
-          >
-            <Share2 className="h-4 w-4 mr-2" />
+          <Button variant="outline" size="lg" onClick={handleShare}>
+            <Share2 className="mr-2 h-4 w-4" />
             Share
           </Button>
         </div>

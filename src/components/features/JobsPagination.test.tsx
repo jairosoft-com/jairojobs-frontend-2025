@@ -15,7 +15,7 @@ describe('JobsPagination', () => {
         currentPage={1}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     expect(screen.getByText('1')).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe('JobsPagination', () => {
         currentPage={3}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     const currentPageLink = screen.getByText('3').closest('a');
@@ -45,7 +45,7 @@ describe('JobsPagination', () => {
         currentPage={1}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     await user.click(screen.getByText('3'));
@@ -59,7 +59,7 @@ describe('JobsPagination', () => {
         currentPage={3}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     await user.click(screen.getByText('Previous'));
@@ -73,7 +73,7 @@ describe('JobsPagination', () => {
         currentPage={3}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     await user.click(screen.getByText('Next'));
@@ -86,7 +86,7 @@ describe('JobsPagination', () => {
         currentPage={1}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     const previousButton = screen.getByText('Previous').closest('a');
@@ -99,7 +99,7 @@ describe('JobsPagination', () => {
         currentPage={5}
         totalPages={5}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     const nextButton = screen.getByText('Next').closest('a');
@@ -112,7 +112,7 @@ describe('JobsPagination', () => {
         currentPage={5}
         totalPages={10}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     // Should show: Previous 1 ... 4 5 6 ... 10 Next
@@ -121,7 +121,7 @@ describe('JobsPagination', () => {
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.getByText('6')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
-    
+
     // Check for ellipsis (dots) - look for the icon containers
     const ellipses = screen.getAllByText('More pages');
     expect(ellipses).toHaveLength(2);
@@ -133,12 +133,16 @@ describe('JobsPagination', () => {
         currentPage={1}
         totalPages={1}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     expect(screen.getByText('1')).toBeInTheDocument();
-    expect(screen.getByText('Previous').closest('a')).toHaveClass('pointer-events-none');
-    expect(screen.getByText('Next').closest('a')).toHaveClass('pointer-events-none');
+    expect(screen.getByText('Previous').closest('a')).toHaveClass(
+      'pointer-events-none',
+    );
+    expect(screen.getByText('Next').closest('a')).toHaveClass(
+      'pointer-events-none',
+    );
   });
 
   it('shows correct pages at beginning', () => {
@@ -147,14 +151,14 @@ describe('JobsPagination', () => {
         currentPage={1}
         totalPages={10}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     // Should show: Previous 1 2 ... 10 Next
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
-    
+
     // Check for single ellipsis
     const ellipses = screen.getAllByText('More pages');
     expect(ellipses).toHaveLength(1);
@@ -166,14 +170,14 @@ describe('JobsPagination', () => {
         currentPage={10}
         totalPages={10}
         onPageChange={mockOnPageChange}
-      />
+      />,
     );
 
     // Should show: Previous 1 ... 9 10 Next
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('9')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
-    
+
     // Check for single ellipsis
     const ellipses = screen.getAllByText('More pages');
     expect(ellipses).toHaveLength(1);
