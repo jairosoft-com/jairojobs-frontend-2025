@@ -1,4 +1,4 @@
-import { Job, Company } from '@/types';
+import { Job, Company, JobFilters } from '@/types';
 
 export const mockCompanies: Company[] = [
   {
@@ -350,6 +350,109 @@ export function searchJobs(query: string, location?: string): Job[] {
   });
 }
 
+// Enhanced filter function with JobFilters support
+export function filterJobs(filters: JobFilters): Job[] {
+  return mockJobs.filter(job => {
+    // Active jobs only
+    if (!job.active) return false;
+    
+    // Search query
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      const matchesSearch = 
+        job.title.toLowerCase().includes(searchLower) ||
+        job.company.toLowerCase().includes(searchLower) ||
+        job.description.toLowerCase().includes(searchLower) ||
+        job.tags.some(tag => tag.toLowerCase().includes(searchLower));
+      if (!matchesSearch) return false;
+    }
+    
+    // Location
+    if (filters.location) {
+      const locationLower = filters.location.toLowerCase();
+      const matchesLocation = 
+        job.location.toLowerCase().includes(locationLower) ||
+        job.remoteOption === 'remote';
+      if (!matchesLocation) return false;
+    }
+    
+    // Job type
+    if (filters.type && filters.type.length > 0) {
+      if (!filters.type.includes(job.type)) return false;
+    }
+    
+    // Experience level
+    if (filters.experienceLevel && filters.experienceLevel.length > 0) {
+      if (!filters.experienceLevel.includes(job.experienceLevel)) return false;
+    }
+    
+    // Remote option
+    if (filters.remoteOption && filters.remoteOption.length > 0) {
+      if (!filters.remoteOption.includes(job.remoteOption)) return false;
+    }
+    
+    // Salary range
+    if (filters.salaryMin !== undefined || filters.salaryMax !== undefined) {
+      // Convert to yearly for comparison
+      let yearlyMin = job.salary.min;
+      let yearlyMax = job.salary.max;
+      
+      if (job.salary.period === 'hourly') {
+        yearlyMin = job.salary.min * 2080; // 40 hours/week * 52 weeks
+        yearlyMax = job.salary.max * 2080;
+      } else if (job.salary.period === 'monthly') {
+        yearlyMin = job.salary.min * 12;
+        yearlyMax = job.salary.max * 12;
+      }
+      
+      if (filters.salaryMin !== undefined && yearlyMax < filters.salaryMin) return false;
+      if (filters.salaryMax !== undefined && yearlyMin > filters.salaryMax) return false;
+    }
+    
+    // Tags
+    if (filters.tags && filters.tags.length > 0) {
+      const hasMatchingTag = filters.tags.some(tag => 
+        job.tags.some(jobTag => jobTag.toLowerCase() === tag.toLowerCase())
+      );
+      if (!hasMatchingTag) return false;
+    }
+    
+    return true;
+  });
+}
+
+export type SortOption = 'relevance' | 'date' | 'salary';
+
+export function sortJobs(jobs: Job[], sortBy: SortOption = 'relevance'): Job[] {
+  const sorted = [...jobs];
+  
+  switch (sortBy) {
+    case 'date':
+      return sorted.sort((a, b) => b.postedAt.getTime() - a.postedAt.getTime());
+    
+    case 'salary':
+      return sorted.sort((a, b) => {
+        // Convert to yearly for comparison
+        const getYearlySalary = (job: Job) => {
+          const avg = (job.salary.min + job.salary.max) / 2;
+          if (job.salary.period === 'hourly') return avg * 2080;
+          if (job.salary.period === 'monthly') return avg * 12;
+          return avg;
+        };
+        return getYearlySalary(b) - getYearlySalary(a);
+      });
+    
+    case 'relevance':
+    default:
+      // Featured jobs first, then by date
+      return sorted.sort((a, b) => {
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return b.postedAt.getTime() - a.postedAt.getTime();
+      });
+  }
+}
+
 export function getJobById(id: string): Job | undefined {
   return mockJobs.find(job => job.id === id);
 }
@@ -377,3 +480,19 @@ export const jobCategories = [
   { name: 'HR', icon: '👥', count: 19 },
   { name: 'Finance', icon: '💰', count: 24 },
 ];
+
+// Pagination helper
+export function paginateJobs(jobs: Job[], page: number, itemsPerPage: number = 10) {
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedJobs = jobs.slice(startIndex, endIndex);
+  
+  return {
+    jobs: paginatedJobs,
+    totalPages: Math.ceil(jobs.length / itemsPerPage),
+    totalJobs: jobs.length,
+    currentPage: page,
+    hasNextPage: endIndex < jobs.length,
+    hasPrevPage: page > 1,
+  };
+}

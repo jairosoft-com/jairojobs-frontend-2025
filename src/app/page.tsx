@@ -1,3 +1,5 @@
+'use client';
+
 import { SearchBar } from '@/components/features/SearchBar';
 import { JobCard } from '@/components/features/JobCard';
 import { getFeaturedJobs, jobCategories } from '@/lib/db/mockData';
