@@ -6,7 +6,7 @@ import { Job } from '@/types';
 
 // Mock the ApplicationSection component
 vi.mock('./ApplicationSection', () => ({
-  ApplicationSection: ({ onSubmit }: any) => (
+  ApplicationSection: ({ onSubmit }: { onSubmit: (data: { email: string }) => void }) => (
     <div data-testid="application-section">
       <button onClick={() => onSubmit({ email: 'test@example.com' })}>
         Submit Application

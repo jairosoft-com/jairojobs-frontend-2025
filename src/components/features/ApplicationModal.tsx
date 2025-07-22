@@ -12,11 +12,19 @@ import { Button } from '@/components/ui/button';
 import { ApplicationSection } from './ApplicationSection';
 import { Job } from '@/types';
 
+interface ApplicationFormData {
+  fullName: string;
+  email: string;
+  phone?: string;
+  resume: File;
+  coverLetter?: string;
+}
+
 interface ApplicationModalProps {
   job: Job;
   isAuthenticated?: boolean;
   hasApplied?: boolean;
-  onApplicationSubmit?: (data: any) => void | Promise<void>;
+  onApplicationSubmit?: (data: ApplicationFormData) => void | Promise<void>;
 }
 
 export function ApplicationModal({
@@ -27,19 +35,14 @@ export function ApplicationModal({
 }: ApplicationModalProps) {
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = async (data: any) => {
-    try {
-      // Call the parent's submit handler if provided
-      if (onApplicationSubmit) {
-        await onApplicationSubmit(data);
-      }
-      
-      // Close the modal after successful submission
-      setOpen(false);
-    } catch (error) {
-      // Let the ApplicationSection handle the error display
-      throw error;
+  const handleSubmit = async (data: ApplicationFormData) => {
+    // Call the parent's submit handler if provided
+    if (onApplicationSubmit) {
+      await onApplicationSubmit(data);
     }
+    
+    // Close the modal after successful submission
+    setOpen(false);
   };
 
   return (

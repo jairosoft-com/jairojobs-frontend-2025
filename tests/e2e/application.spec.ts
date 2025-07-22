@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { JobsPage, JobDetailsPage } from './helpers/page-objects';
 import { testData } from './helpers/test-data';
-import * as path from 'path';
 
 test.describe('Job Application', () => {
   let jobDetailsPage: JobDetailsPage;
@@ -46,7 +45,7 @@ test.describe('Job Application', () => {
       await expect(page.getByText(/resume is required/i)).toBeVisible();
     });
 
-    test.skip('should validate email format', async ({ page }) => {
+    test.skip('should validate email format', async () => {
       // Skip this test as it's checking HTML5 validation which behaves differently
       // The application uses browser's native email validation
     });
