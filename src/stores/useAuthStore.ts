@@ -26,7 +26,8 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
 
-      login: async (email: string, password: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      login: async (email: string, _password: string) => {
         set({ isLoading: true });
         try {
           // Simulate API call

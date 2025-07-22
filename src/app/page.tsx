@@ -6,9 +6,11 @@ import { getFeaturedJobs, jobCategories } from '@/lib/db/mockData';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const featuredJobs = getFeaturedJobs();
+  const router = useRouter();
 
   return (
     <>
@@ -20,20 +22,20 @@ export default function Home() {
               Find Your Dream Job Today
             </h1>
             <p className="mx-auto max-w-2xl text-xl text-gray-600">
-              Connect with top companies and discover opportunities that match
-              your skills and aspirations
+              Connect with top companies and discover thousands of job
+              opportunities that match your skills and aspirations
             </p>
           </div>
 
           <div className="mx-auto max-w-4xl">
             <SearchBar
               onSearch={params => {
-                // For now, just navigate to the jobs page with search params
+                // Navigate to the jobs page with search params
                 const searchParams = new URLSearchParams();
-                if (params.query) searchParams.set('q', params.query);
+                if (params.query) searchParams.set('search', params.query);
                 if (params.location)
                   searchParams.set('location', params.location);
-                window.location.href = `/jobs?${searchParams.toString()}`;
+                router.push(`/jobs?${searchParams.toString()}`);
               }}
             />
           </div>
@@ -42,28 +44,28 @@ export default function Home() {
             <p className="text-gray-600">
               Popular searches:
               <Link
-                href="/jobs?q=React"
+                href="/jobs?search=React"
                 className="ml-2 text-primary hover:underline"
               >
                 React
               </Link>
               ,
               <Link
-                href="/jobs?q=Python"
+                href="/jobs?search=Python"
                 className="ml-2 text-primary hover:underline"
               >
                 Python
               </Link>
               ,
               <Link
-                href="/jobs?q=Remote"
+                href="/jobs?search=Remote"
                 className="ml-2 text-primary hover:underline"
               >
                 Remote
               </Link>
               ,
               <Link
-                href="/jobs?q=Senior"
+                href="/jobs?search=Senior"
                 className="ml-2 text-primary hover:underline"
               >
                 Senior Developer
@@ -92,7 +94,7 @@ export default function Home() {
                 key={job.id}
                 job={job}
                 onClick={() => {
-                  window.location.href = `/jobs/${job.id}`;
+                  router.push(`/jobs/${job.id}`);
                 }}
               />
             ))}
@@ -105,7 +107,7 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-gray-900">
-              Browse by Category
+              Explore by Category
             </h2>
             <p className="text-lg text-gray-600">
               Find the perfect role in your field
@@ -164,7 +166,7 @@ export default function Home() {
               </div>
               <h3 className="mb-2 text-xl font-semibold">Search & Apply</h3>
               <p className="text-gray-600">
-                Browse thousands of opportunities and apply with one click
+                Browse thousands of job opportunities and apply with one click
               </p>
             </div>
 

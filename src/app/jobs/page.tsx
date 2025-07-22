@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { JobCard } from '@/components/features/JobCard';
 import { JobFilters } from '@/components/features/JobFilters';
@@ -29,12 +29,13 @@ import { SORT_OPTIONS, ITEMS_PER_PAGE_OPTIONS } from '@/lib/utils/filters';
 
 function JobsContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Parse initial filters from URL
   const getInitialFilters = (): JobFiltersType => {
     const filters: JobFiltersType = {};
 
-    const search = searchParams.get('q');
+    const search = searchParams.get('search') || searchParams.get('q');
     if (search) filters.search = search;
 
     const location = searchParams.get('location');
@@ -68,7 +69,7 @@ function JobsContent() {
   useEffect(() => {
     const params = new URLSearchParams();
 
-    if (filters.search) params.set('q', filters.search);
+    if (filters.search) params.set('search', filters.search);
     if (filters.location) params.set('location', filters.location);
     if (filters.type?.length) params.set('type', filters.type.join(','));
     if (filters.experienceLevel?.length)
@@ -142,6 +143,11 @@ function JobsContent() {
 
           {/* Main Content */}
           <main className="lg:col-span-3">
+            {/* Page Title */}
+            <h1 className="mb-6 text-3xl font-bold text-gray-900">
+              Job Listings
+            </h1>
+
             {/* Results Header */}
             <div className="mb-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -155,10 +161,10 @@ function JobsContent() {
                     />
                   </div>
 
-                  <h1 className="text-2xl font-semibold text-gray-900">
+                  <p className="text-lg text-gray-600">
                     {paginatedData.totalJobs}{' '}
                     {paginatedData.totalJobs === 1 ? 'job' : 'jobs'} found
-                  </h1>
+                  </p>
                 </div>
 
                 <div className="flex gap-4">
@@ -208,7 +214,7 @@ function JobsContent() {
                       key={job.id}
                       job={job}
                       onClick={() => {
-                        window.location.href = `/jobs/${job.id}`;
+                        router.push(`/jobs/${job.id}`);
                       }}
                     />
                   ))}

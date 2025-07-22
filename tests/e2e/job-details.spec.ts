@@ -136,7 +136,6 @@ test.describe('Job Details Page', () => {
   test('should update browser title', async ({ page }) => {
     // Get job title
     const jobTitle = await jobDetailsPage.jobTitle.textContent();
-    const companyName = await jobDetailsPage.companyName.textContent();
     
     // Browser title should include job title and company
     const title = await page.title();

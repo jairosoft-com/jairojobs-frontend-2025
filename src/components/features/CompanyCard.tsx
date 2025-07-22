@@ -46,7 +46,7 @@ export function CompanyCard({ company }: CompanyCardProps) {
   };
 
   return (
-    <Card>
+    <Card data-testid="company-card">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">

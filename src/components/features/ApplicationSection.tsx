@@ -68,7 +68,7 @@ export function ApplicationSection({
       email: '',
       phone: '',
       coverLetter: '',
-      resume: undefined as any,
+      resume: undefined as unknown as File,
     },
   });
 
@@ -100,7 +100,7 @@ export function ApplicationSection({
 
   const removeFile = () => {
     setSelectedFile(null);
-    form.setValue('resume', undefined as any);
+    form.setValue('resume', undefined as unknown as File);
   };
 
   const handleSubmit = async (data: ApplicationFormData) => {
@@ -116,7 +116,7 @@ export function ApplicationSection({
         title: 'Application submitted!',
         description: 'Your application has been sent successfully.',
       });
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to submit application. Please try again.',

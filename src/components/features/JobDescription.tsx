@@ -14,7 +14,7 @@ export function JobDescription({ job }: JobDescriptionProps) {
     .filter(p => p.trim());
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="job-description">
       {/* About the Role */}
       <Card>
         <CardHeader>

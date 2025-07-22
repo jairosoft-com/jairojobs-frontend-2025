@@ -4,6 +4,7 @@ import { Job } from '@/types';
 import { JobCard } from './JobCard';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface RelatedJobsProps {
   jobs: Job[];
@@ -14,6 +15,7 @@ export function RelatedJobs({
   jobs,
   title = 'Similar Jobs',
 }: RelatedJobsProps) {
+  const router = useRouter();
   // Limit to 4 jobs for display
   const displayedJobs = jobs.slice(0, 4);
   const hasMoreJobs = jobs.length > 4;
@@ -27,7 +29,7 @@ export function RelatedJobs({
   }
 
   return (
-    <div>
+    <div data-testid="related-jobs">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
         {hasMoreJobs && (
@@ -47,7 +49,7 @@ export function RelatedJobs({
             key={job.id}
             job={job}
             onClick={() => {
-              window.location.href = `/jobs/${job.id}`;
+              router.push(`/jobs/${job.id}`);
             }}
           />
         ))}

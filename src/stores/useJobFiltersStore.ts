@@ -9,16 +9,14 @@ interface JobFiltersState {
 }
 
 const defaultFilters: JobFilters = {
-  types: [],
-  experienceLevels: [],
-  locations: [],
-  remoteOptions: [],
+  type: [],
+  experienceLevel: [],
+  location: '',
+  remoteOption: [],
   salaryMin: undefined,
   salaryMax: undefined,
   search: '',
-  sortBy: 'relevance',
-  page: 1,
-  perPage: 20,
+  tags: [],
 };
 
 export const useJobFiltersStore = create<JobFiltersState>((set, get) => ({
@@ -37,13 +35,14 @@ export const useJobFiltersStore = create<JobFiltersState>((set, get) => ({
   hasActiveFilters: () => {
     const { filters } = get();
     return (
-      filters.types.length > 0 ||
-      filters.experienceLevels.length > 0 ||
-      filters.locations.length > 0 ||
-      filters.remoteOptions.length > 0 ||
+      (filters.type?.length ?? 0) > 0 ||
+      (filters.experienceLevel?.length ?? 0) > 0 ||
+      (filters.location !== '' && filters.location !== undefined) ||
+      (filters.remoteOption?.length ?? 0) > 0 ||
       filters.salaryMin !== undefined ||
       filters.salaryMax !== undefined ||
-      filters.search !== ''
+      (filters.search !== '' && filters.search !== undefined) ||
+      (filters.tags?.length ?? 0) > 0
     );
   },
 }));

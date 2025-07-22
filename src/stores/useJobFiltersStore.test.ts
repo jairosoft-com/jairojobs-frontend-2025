@@ -11,16 +11,14 @@ describe('useJobFiltersStore', () => {
   it('initializes with default values', () => {
     const state = useJobFiltersStore.getState();
     expect(state.filters).toEqual({
-      types: [],
-      experienceLevels: [],
-      locations: [],
-      remoteOptions: [],
+      type: [],
+      experienceLevel: [],
+      location: '',
+      remoteOption: [],
       salaryMin: undefined,
       salaryMax: undefined,
       search: '',
-      sortBy: 'relevance',
-      page: 1,
-      perPage: 20,
+                  tags: [],
     });
   });
 
@@ -28,16 +26,16 @@ describe('useJobFiltersStore', () => {
     const { setFilters } = useJobFiltersStore.getState();
     
     setFilters({
-      types: ['full-time', 'part-time'],
+      type: ['full-time', 'part-time'],
       search: 'developer',
     });
     
     const state = useJobFiltersStore.getState();
-    expect(state.filters.types).toEqual(['full-time', 'part-time']);
+    expect(state.filters.type).toEqual(['full-time', 'part-time']);
     expect(state.filters.search).toBe('developer');
     // Other filters should remain at default values
-    expect(state.filters.experienceLevels).toEqual([]);
-    expect(state.filters.sortBy).toBe('relevance');
+    expect(state.filters.experienceLevel).toEqual([]);
+    // expect(state.filters.sortBy).toBe('relevance');
   });
 
   it('updates existing filters', () => {
@@ -45,20 +43,20 @@ describe('useJobFiltersStore', () => {
     
     // Set initial filters
     setFilters({
-      types: ['full-time'],
+      type: ['full-time'],
       search: 'developer',
     });
     
     // Update filters
     setFilters({
-      types: ['part-time'],
+      type: ['part-time'],
       locations: ['San Francisco, CA'],
     });
     
     const state = useJobFiltersStore.getState();
-    expect(state.filters.types).toEqual(['part-time']); // Should be replaced
+    expect(state.filters.type).toEqual(['part-time']); // Should be replaced
     expect(state.filters.search).toBe('developer'); // Should remain
-    expect(state.filters.locations).toEqual(['San Francisco, CA']); // Should be added
+    expect(state.filters.location).toEqual(['San Francisco, CA']); // Should be added
   });
 
   it('resets filters to default', () => {
@@ -66,7 +64,7 @@ describe('useJobFiltersStore', () => {
     
     // Set some filters
     setFilters({
-      types: ['full-time'],
+      type: ['full-time'],
       experienceLevels: ['senior'],
       search: 'developer',
       salaryMin: 100000,
@@ -77,16 +75,14 @@ describe('useJobFiltersStore', () => {
     
     const state = useJobFiltersStore.getState();
     expect(state.filters).toEqual({
-      types: [],
-      experienceLevels: [],
-      locations: [],
-      remoteOptions: [],
+      type: [],
+      experienceLevel: [],
+      location: '',
+      remoteOption: [],
       salaryMin: undefined,
       salaryMax: undefined,
       search: '',
-      sortBy: 'relevance',
-      page: 1,
-      perPage: 20,
+                  tags: [],
     });
   });
 
@@ -101,16 +97,16 @@ describe('useJobFiltersStore', () => {
     expect(hasActiveFilters()).toBe(true);
     
     // Reset and test with types
-    setFilters({ search: '', types: ['full-time'] });
+    setFilters({ search: '', type: ['full-time'] });
     expect(hasActiveFilters()).toBe(true);
     
     // Reset and test with salary
-    setFilters({ types: [], salaryMin: 50000 });
+    setFilters({ type: [], salaryMin: 50000 });
     expect(hasActiveFilters()).toBe(true);
     
     // Reset and test with multiple filters
     setFilters({
-      types: ['full-time'],
+      type: ['full-time'],
       locations: ['Remote'],
       search: 'engineer',
     });
@@ -121,8 +117,8 @@ describe('useJobFiltersStore', () => {
     const { setFilters, hasActiveFilters } = useJobFiltersStore.getState();
     
     setFilters({
-      sortBy: 'date',
-      page: 2,
+      // sortBy: 'date',
+      // page: 2,
       perPage: 50,
     });
     
@@ -132,13 +128,13 @@ describe('useJobFiltersStore', () => {
   it('handles pagination correctly', () => {
     const { setFilters } = useJobFiltersStore.getState();
     
-    setFilters({ page: 3 });
+    setFilters({ // page: 3 });
     
     const state = useJobFiltersStore.getState();
-    expect(state.filters.page).toBe(3);
+    expect(// state.filters.page).toBe(3);
     
     // Changing filters should reset page to 1
-    setFilters({ types: ['full-time'], page: 1 });
+    setFilters({ type: ['full-time'], // page: 1 });
     expect(useJobFiltersStore.getState().filters.page).toBe(1);
   });
 });

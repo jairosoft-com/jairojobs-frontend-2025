@@ -42,7 +42,7 @@ export function SearchBar({
           />
           <Input
             type="text"
-            placeholder="Job title or keywords"
+            placeholder="Search job title, keywords, or company"
             value={query}
             onChange={e => setQuery(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -57,7 +57,7 @@ export function SearchBar({
           />
           <Input
             type="text"
-            placeholder="Location"
+            placeholder="City, state, or remote"
             value={location}
             onChange={e => setLocation(e.target.value)}
             onKeyPress={handleKeyPress}

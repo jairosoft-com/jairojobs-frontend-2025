@@ -88,7 +88,9 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
               <h1 className="mb-2 text-3xl font-bold text-gray-900">
                 {job.title}
               </h1>
-              <p className="text-xl text-gray-600">{company.name}</p>
+              <p className="text-xl text-gray-600" data-testid="company-name">
+                {company.name}
+              </p>
             </div>
           </div>
           {job.featured && <Badge variant="default">Featured</Badge>}
@@ -154,7 +156,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
           </Button>
           <Button variant="outline" size="lg" onClick={handleSave}>
             <Bookmark className="mr-2 h-4 w-4" />
-            Save
+            Save Job
           </Button>
           <Button variant="outline" size="lg" onClick={handleShare}>
             <Share2 className="mr-2 h-4 w-4" />

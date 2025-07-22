@@ -55,10 +55,7 @@ test.describe('Job Application', () => {
 
   test('should handle file upload', async ({ page }) => {
     // Create a test file path
-    const resumePath = path.join(__dirname, 'fixtures', 'test-resume.pdf');
-    
-    // Upload file
-    const fileInput = page.locator('input[type="file"]');
+    // const resumePath = path.join(__dirname, 'fixtures', 'test-resume.pdf');
     
     // Set up file chooser
     const [fileChooser] = await Promise.all([
@@ -161,7 +158,7 @@ test.describe('Job Application', () => {
     }
   });
 
-  test('should handle application form errors gracefully', async ({ page }) => {
+  test('should handle application form errors gracefully', async () => {
     // Fill form with valid data
     await jobDetailsPage.fillApplicationForm({
       fullName: testData.applicationData.fullName,
