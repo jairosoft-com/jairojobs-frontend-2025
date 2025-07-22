@@ -26,6 +26,7 @@
     "target": "es5", // The language version for emitted JavaScript. 'es5' ensures broad browser compatibility.
     "lib": ["dom", "dom.iterable", "esnext"], // Specifies the library files to be included in the compilation.
     "jsx": "preserve", // Do not transform JSX. Next.js's compiler handles this.
+    "types": ["vitest/globals"], // Include Vitest global types
     /* Path Aliases */
     "baseUrl": ".", // Base directory to resolve non-absolute module names.
     "paths": {
