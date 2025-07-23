@@ -529,7 +529,7 @@ export const mockJobs: Job[] = [
     companyLogo: '/companies/techcorp.png',
     location: 'Portland, OR',
     type: 'full-time',
-    experienceLevel: 'junior',
+    experienceLevel: 'entry',
     remoteOption: 'onsite',
     salary: {
       min: 70000,
@@ -793,7 +793,7 @@ export const mockJobs: Job[] = [
     companyLogo: '/companies/innovate.png',
     location: 'Phoenix, AZ',
     type: 'full-time',
-    experienceLevel: 'junior',
+    experienceLevel: 'entry',
     remoteOption: 'onsite',
     salary: {
       min: 65000,
