@@ -108,7 +108,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
           </div>
           <div className="flex items-center gap-1">
             <DollarSign className="h-4 w-4" />
-            <span>{formatSalary()}</span>
+            <span data-testid="salary-range">{formatSalary()}</span>
           </div>
           {job.applicants !== undefined && (
             <div className="flex items-center gap-1">
@@ -120,8 +120,9 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
 
         {/* Badges */}
         <div className="mb-6 flex flex-wrap gap-2">
-          <Badge variant="secondary">{jobTypeLabel}</Badge>
-          <Badge variant="outline">{experienceLevelLabel}</Badge>
+          <Badge variant="secondary" data-testid="job-type-badge">{jobTypeLabel}</Badge>
+          <Badge variant="outline" data-testid="experience-badge">{experienceLevelLabel}</Badge>
+          <Badge variant="outline" data-testid="location-badge">{job.location}</Badge>
         </div>
 
         {/* Timeline Information */}

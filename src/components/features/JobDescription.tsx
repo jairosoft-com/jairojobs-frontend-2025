@@ -18,7 +18,9 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {/* About the Role */}
       <Card>
         <CardHeader>
-          <CardTitle>About the Role</CardTitle>
+          <CardTitle asChild>
+            <h2>About the Role</h2>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4 text-gray-700">
@@ -33,7 +35,9 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.requirements.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Requirements</CardTitle>
+            <CardTitle asChild>
+              <h2>Requirements</h2>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -52,7 +56,9 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.responsibilities.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Responsibilities</CardTitle>
+            <CardTitle asChild>
+              <h2>Responsibilities</h2>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -71,7 +77,9 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.benefits.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Benefits</CardTitle>
+            <CardTitle asChild>
+              <h2>Benefits</h2>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -90,12 +98,14 @@ export function JobDescription({ job }: JobDescriptionProps) {
       {job.tags.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Required Skills</CardTitle>
+            <CardTitle asChild>
+              <h2>Required Skills</h2>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {job.tags.map(tag => (
-                <Badge key={tag} variant="secondary" className="text-sm">
+                <Badge key={tag} variant="secondary" className="text-sm" data-testid="skill-tag">
                   {tag}
                 </Badge>
               ))}

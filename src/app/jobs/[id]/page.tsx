@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,6 +33,13 @@ export default function JobDetailsPage({ params }: JobDetailsPageProps) {
 
   const company = getCompanyById(job.companyId);
   const relatedJobs = getRelatedJobs(job.id);
+
+  // Update page title
+  useEffect(() => {
+    if (job) {
+      document.title = `${job.title} at ${job.company} - JairoJobs`;
+    }
+  }, [job]);
 
   // If company data is not found, create a minimal company object
   const companyData = company || {
@@ -95,7 +102,7 @@ export default function JobDetailsPage({ params }: JobDetailsPageProps) {
             {/* Related Jobs */}
             {relatedJobs.length > 0 && (
               <div>
-                <RelatedJobs jobs={relatedJobs} title="Similar Jobs" />
+                <RelatedJobs jobs={relatedJobs} title="Similar Positions" />
               </div>
             )}
           </div>

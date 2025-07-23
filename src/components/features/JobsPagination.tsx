@@ -65,8 +65,9 @@ export function JobsPagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <Pagination>
-      <PaginationContent>
+    <nav aria-label="pagination">
+      <Pagination>
+        <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
             onClick={e => {
@@ -118,5 +119,6 @@ export function JobsPagination({
         </PaginationItem>
       </PaginationContent>
     </Pagination>
+    </nav>
   );
 }
