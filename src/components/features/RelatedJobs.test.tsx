@@ -99,7 +99,7 @@ describe('RelatedJobs', () => {
   it('renders the component title', () => {
     render(<RelatedJobs jobs={mockJobs} />);
 
-    expect(screen.getByText('Similar Jobs')).toBeInTheDocument();
+    expect(screen.getByText('Similar Positions')).toBeInTheDocument();
   });
 
   it('displays all provided jobs', () => {
@@ -155,7 +155,7 @@ describe('RelatedJobs', () => {
     render(<RelatedJobs jobs={mockJobs} title="More Jobs at TechCorp" />);
 
     expect(screen.getByText('More Jobs at TechCorp')).toBeInTheDocument();
-    expect(screen.queryByText('Similar Jobs')).not.toBeInTheDocument();
+    expect(screen.queryByText('Similar Positions')).not.toBeInTheDocument();
   });
 
   it('handles empty jobs array', () => {

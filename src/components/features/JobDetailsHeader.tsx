@@ -94,7 +94,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
 
         {/* Job Meta Information */}
         <div className="mb-6 flex flex-wrap gap-4 text-gray-600">
-          <div className="flex items-center gap-1" data-testid="location-badge">
+          <div className="flex items-center gap-1">
             <MapPin className="h-4 w-4" />
             <span>{job.location}</span>
           </div>

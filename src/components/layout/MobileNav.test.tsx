@@ -54,7 +54,8 @@ describe('MobileNav', () => {
     const onClose = vi.fn();
     render(<MobileNav isOpen={true} onClose={onClose} />);
 
-    const closeButton = screen.getByRole('button', { name: /close menu/i });
+    // Get the close button specifically within the Sheet
+    const closeButton = screen.getAllByRole('button', { name: /close/i })[0];
     await user.click(closeButton);
 
     // onClose might be called multiple times due to Sheet's onOpenChange

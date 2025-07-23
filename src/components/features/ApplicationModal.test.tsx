@@ -85,11 +85,13 @@ describe('ApplicationModal', () => {
     const applyButton = screen.getByRole('button', { name: /apply now/i });
     await user.click(applyButton);
     
-    // Click overlay
-    const dialog = screen.getByRole('dialog');
-    const overlay = dialog.parentElement;
-    if (overlay) {
-      await user.click(overlay);
+    // Wait for dialog to be open
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    
+    // Click the backdrop/overlay (the element with data-state="open" and pointer-events)
+    const backdrop = document.querySelector('[data-state="open"][style*="pointer-events"]');
+    if (backdrop) {
+      await user.click(backdrop);
     }
     
     // Modal should be closed
