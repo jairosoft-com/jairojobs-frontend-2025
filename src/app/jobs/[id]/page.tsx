@@ -35,6 +35,19 @@ export default function JobDetailsPage({ params }: JobDetailsPageProps) {
   const company = getCompanyById(job.companyId);
   const relatedJobs = getRelatedJobs(job.id);
 
+// Generate metadata for the page
+export async function generateMetadata({ params }: JobDetailsPageProps) {
+  const { id } = await params;
+  const job = getJobById(id);
+
+  if (!job || !job.active) {
+    return { title: 'Job Not Found - JairoJobs' };
+  }
+
+  return {
+    title: `${job.title} at ${job.company} - JairoJobs`,
+  };
+}
   // If company data is not found, create a minimal company object
   const companyData = company || {
     id: job.companyId,
@@ -101,7 +114,7 @@ export default function JobDetailsPage({ params }: JobDetailsPageProps) {
             {/* Related Jobs */}
             {relatedJobs.length > 0 && (
               <div>
-                <RelatedJobs jobs={relatedJobs} title="Similar Jobs" />
+                <RelatedJobs jobs={relatedJobs} title="Similar Positions" />
               </div>
             )}
           </div>

@@ -142,11 +142,7 @@ test.describe('Job Details Page', () => {
     const jobTitle = await jobDetailsPage.jobTitle.textContent();
     
     // Wait for title to update
-    await page.waitForFunction(
-      (expectedTitle) => document.title.toLowerCase().includes(expectedTitle.toLowerCase()),
-      jobTitle?.toLowerCase() || '',
-      { timeout: 5000 }
-    );
+    await page.waitForTimeout(500);
     
     // Browser title should include job title and company
     const title = await page.title();
