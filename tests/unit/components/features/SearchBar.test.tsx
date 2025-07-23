@@ -6,14 +6,14 @@ describe('SearchBar', () => {
   it('should render search input with placeholder', () => {
     render(<SearchBar onSearch={vi.fn()} />);
 
-    const searchInput = screen.getByPlaceholderText(/job title or keywords/i);
+    const searchInput = screen.getByPlaceholderText(/search job title, keywords, or company/i);
     expect(searchInput).toBeInTheDocument();
   });
 
   it('should render location input with placeholder', () => {
     render(<SearchBar onSearch={vi.fn()} />);
 
-    const locationInput = screen.getByPlaceholderText(/location/i);
+    const locationInput = screen.getByPlaceholderText(/city, state, or remote/i);
     expect(locationInput).toBeInTheDocument();
   });
 
@@ -44,8 +44,8 @@ describe('SearchBar', () => {
 
     render(<SearchBar onSearch={mockOnSearch} />);
 
-    const searchInput = screen.getByPlaceholderText(/job title or keywords/i);
-    const locationInput = screen.getByPlaceholderText(/location/i);
+    const searchInput = screen.getByPlaceholderText(/search job title, keywords, or company/i);
+    const locationInput = screen.getByPlaceholderText(/city, state, or remote/i);
     const searchButton = screen.getByRole('button', { name: /search jobs/i });
 
     await user.type(searchInput, 'React Developer');
@@ -64,7 +64,7 @@ describe('SearchBar', () => {
 
     render(<SearchBar onSearch={mockOnSearch} />);
 
-    const searchInput = screen.getByPlaceholderText(/job title or keywords/i);
+    const searchInput = screen.getByPlaceholderText(/search job title, keywords, or company/i);
     await user.type(searchInput, 'Frontend Engineer{Enter}');
 
     expect(mockOnSearch).toHaveBeenCalledWith({
@@ -79,7 +79,7 @@ describe('SearchBar', () => {
 
     render(<SearchBar onSearch={mockOnSearch} />);
 
-    const locationInput = screen.getByPlaceholderText(/location/i);
+    const locationInput = screen.getByPlaceholderText(/city, state, or remote/i);
     await user.type(locationInput, 'New York{Enter}');
 
     expect(mockOnSearch).toHaveBeenCalledWith({

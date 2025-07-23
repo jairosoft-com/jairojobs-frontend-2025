@@ -71,7 +71,9 @@ describe('JobDetailsHeader', () => {
   it('shows location and remote option', () => {
     render(<JobDetailsHeader job={mockJob} company={mockCompany} />);
 
-    expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
+    // Use test-id for location badge to avoid ambiguity
+    const locationBadge = screen.getByTestId('location-badge');
+    expect(locationBadge).toHaveTextContent('San Francisco, CA');
     expect(screen.getByText('Hybrid')).toBeInTheDocument();
   });
 

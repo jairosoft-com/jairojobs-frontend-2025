@@ -13,9 +13,9 @@ describe('Header', () => {
   it('should render navigation links', () => {
     render(<Header />);
 
-    const findJobsLink = screen.getByRole('link', { name: /find jobs/i });
-    expect(findJobsLink).toBeInTheDocument();
-    expect(findJobsLink).toHaveAttribute('href', '/jobs');
+    const jobsLink = screen.getByRole('link', { name: /^jobs$/i });
+    expect(jobsLink).toBeInTheDocument();
+    expect(jobsLink).toHaveAttribute('href', '/jobs');
 
     const companiesLink = screen.getByRole('link', { name: /companies/i });
     expect(companiesLink).toBeInTheDocument();
