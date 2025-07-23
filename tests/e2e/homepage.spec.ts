@@ -64,15 +64,30 @@ test.describe('Homepage', () => {
 
   test('should navigate to jobs page with category filter', async ({ page }) => {
     const categoryCard = page.locator('[data-testid="category-card"]').first();
+    
+    // Debug: Check the href attribute
+    const href = await categoryCard.getAttribute('href');
+    console.log('Category card href:', href);
+    
     await categoryCard.click();
+    
+    // Wait a bit for navigation
+    await page.waitForTimeout(1000);
+    
+    // Debug: Check current URL
+    const currentUrl = page.url();
+    console.log('Current URL after click:', currentUrl);
     
     // Should navigate to jobs page with category filter
     await expect(page).toHaveURL(/\/jobs\?category=/);
   });
 
   test('should have working navigation links', async ({ page }) => {
+    // Get header navigation
+    const headerNav = page.getByRole('navigation').first();
+    
     // Test Jobs link
-    await page.getByRole('link', { name: 'Jobs', exact: true }).click();
+    await headerNav.getByRole('link', { name: 'Jobs' }).click();
     await expect(page).toHaveURL('/jobs');
     
     // Go back home
@@ -80,11 +95,15 @@ test.describe('Homepage', () => {
     await expect(page).toHaveURL('/');
     
     // Test Companies link
-    await page.getByRole('link', { name: 'Companies', exact: true }).click();
+    await headerNav.getByRole('link', { name: 'Companies' }).click();
     await expect(page).toHaveURL('/companies');
     
+    // Go back home again
+    await page.getByRole('link', { name: 'JairoJobs' }).click();
+    await expect(page).toHaveURL('/');
+    
     // Test About link
-    await page.getByRole('link', { name: 'About', exact: true }).click();
+    await headerNav.getByRole('link', { name: 'About' }).click();
     await expect(page).toHaveURL('/about');
   });
 
