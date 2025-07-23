@@ -70,7 +70,7 @@ function JobsContent() {
 
   const [filters, setFilters] = useState<JobFiltersType>(getInitialFilters());
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(getInitialPage());
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
   // Update URL when filters or page change
