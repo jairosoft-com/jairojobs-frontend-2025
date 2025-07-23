@@ -128,13 +128,13 @@ describe('useJobFiltersStore', () => {
   it('handles pagination correctly', () => {
     const { setFilters } = useJobFiltersStore.getState();
     
-    setFilters({ // page: 3 });
+    setFilters({ page: 3 });
     
     const state = useJobFiltersStore.getState();
-    expect(// state.filters.page).toBe(3);
+    expect(state.filters.page).toBe(3);
     
     // Changing filters should reset page to 1
-    setFilters({ type: ['full-time'], // page: 1 });
+    setFilters({ type: ['full-time'], page: 1 });
     expect(useJobFiltersStore.getState().filters.page).toBe(1);
   });
 });
