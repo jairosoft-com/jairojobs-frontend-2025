@@ -354,7 +354,7 @@ export const mockJobs: Job[] = [
     location: 'Austin, TX',
     type: 'full-time',
     experienceLevel: 'senior',
-    remoteOption: 'on-site',
+    remoteOption: 'onsite',
     salary: {
       min: 140000,
       max: 180000,
@@ -530,7 +530,7 @@ export const mockJobs: Job[] = [
     location: 'Portland, OR',
     type: 'full-time',
     experienceLevel: 'junior',
-    remoteOption: 'on-site',
+    remoteOption: 'onsite',
     salary: {
       min: 70000,
       max: 90000,
@@ -794,7 +794,7 @@ export const mockJobs: Job[] = [
     location: 'Phoenix, AZ',
     type: 'full-time',
     experienceLevel: 'junior',
-    remoteOption: 'on-site',
+    remoteOption: 'onsite',
     salary: {
       min: 65000,
       max: 85000,
@@ -970,7 +970,7 @@ export const mockJobs: Job[] = [
     location: 'Nashville, TN',
     type: 'full-time',
     experienceLevel: 'mid',
-    remoteOption: 'on-site',
+    remoteOption: 'onsite',
     salary: {
       min: 80000,
       max: 110000,
