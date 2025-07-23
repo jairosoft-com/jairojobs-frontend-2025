@@ -45,8 +45,6 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent side="left" className="w-80 p-0 lg:hidden">
@@ -61,7 +59,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                aria-label="Close menu"
+                aria-label="Close"
               >
                 <X className="h-6 w-6" />
               </Button>

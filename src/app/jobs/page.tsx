@@ -57,6 +57,9 @@ function JobsContent() {
     const salaryMax = searchParams.get('salaryMax');
     if (salaryMax) filters.salaryMax = parseInt(salaryMax);
 
+    const category = searchParams.get('category');
+    if (category) filters.tags = [category];
+
     return filters;
   };
 
@@ -85,6 +88,8 @@ function JobsContent() {
       params.set('salaryMin', filters.salaryMin.toString());
     if (filters.salaryMax)
       params.set('salaryMax', filters.salaryMax.toString());
+    if (filters.tags?.length === 1 && filters.tags[0])
+      params.set('category', filters.tags[0]);
     if (currentPage > 1) params.set('page', currentPage.toString());
 
     const newUrl = params.toString() ? `?${params.toString()}` : '/jobs';

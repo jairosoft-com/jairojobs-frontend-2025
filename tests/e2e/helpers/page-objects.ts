@@ -143,7 +143,7 @@ export class MobileNav {
   constructor(page: Page) {
     this.page = page;
     this.menuButton = page.getByRole('button', { name: /menu/i });
-    this.closeButton = page.getByRole('button', { name: /close/i });
+    this.closeButton = page.getByRole('button', { name: 'Close' });
     this.navLinks = page.getByRole('navigation').locator('a');
     this.signInButton = page.getByRole('link', { name: /sign in/i });
     this.signUpButton = page.getByRole('link', { name: /sign up/i });
@@ -151,9 +151,15 @@ export class MobileNav {
 
   async open() {
     await this.menuButton.click();
+    // Wait a moment for animation
+    await this.page.waitForTimeout(500);
+    // Wait for close button to be visible (indicates sheet is open)
+    await this.closeButton.waitFor({ state: 'visible', timeout: 5000 });
   }
 
   async close() {
     await this.closeButton.click();
+    // Wait for close button to be hidden (indicates sheet is closed)
+    await this.closeButton.waitFor({ state: 'hidden' });
   }
 }

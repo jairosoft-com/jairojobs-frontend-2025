@@ -249,7 +249,7 @@ export const mockJobs: Job[] = [
     tags: ['AWS', 'Kubernetes', 'Terraform', 'DevOps', 'Healthcare'],
     postedAt: new Date('2025-01-18'),
     applicants: 15,
-    featured: false,
+    featured: true,
     active: true,
   },
   {

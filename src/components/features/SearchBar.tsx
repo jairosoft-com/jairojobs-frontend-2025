@@ -19,7 +19,8 @@ export function SearchBar({
   const [query, setQuery] = useState(defaultQuery);
   const [location, setLocation] = useState(defaultLocation);
 
-  const handleSearch = () => {
+  const handleSearch = (e?: React.FormEvent) => {
+    e?.preventDefault();
     onSearch({ query, location });
   };
 
@@ -30,7 +31,8 @@ export function SearchBar({
   };
 
   return (
-    <div
+    <form
+      onSubmit={handleSearch}
       className="rounded-lg bg-white p-6 shadow-lg"
       data-testid="search-bar-container"
     >
@@ -66,11 +68,11 @@ export function SearchBar({
         </div>
 
         <div className="lg:col-span-3">
-          <Button onClick={handleSearch} className="h-12 w-full" size="lg">
+          <Button type="submit" className="h-12 w-full" size="lg">
             Search Jobs
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

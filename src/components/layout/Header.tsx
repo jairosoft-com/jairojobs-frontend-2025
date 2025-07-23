@@ -34,6 +34,12 @@ export function Header() {
             >
               Companies
             </Link>
+            <Link
+              href="/about"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              About
+            </Link>
           </nav>
 
           {/* Desktop Actions */}
