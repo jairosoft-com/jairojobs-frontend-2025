@@ -78,11 +78,11 @@ export function CompanyCard({ company }: CompanyCardProps) {
       <CardContent className="space-y-4">
         {/* Company Details */}
         <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="flex items-center gap-2 text-muted-foreground" data-testid="company-industry">
             <Building2 className="h-4 w-4" />
             <span data-testid="company-industry">{formatIndustry()}</span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="flex items-center gap-2 text-muted-foreground" data-testid="company-size">
             <Users className="h-4 w-4" />
             <span data-testid="company-size">{formatSize()}</span>
           </div>
@@ -127,6 +127,7 @@ export function CompanyCard({ company }: CompanyCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="w-full"
+            data-testid="company-website"
           >
             <Button variant="outline" className="w-full gap-2">
               <ExternalLink className="h-4 w-4" />

@@ -148,7 +148,7 @@ export function JobFilters({
       )}
 
       {/* Job Type */}
-      <div>
+      <div role="group" aria-label="Job Type">
         <h3 className="mb-3 text-sm font-semibold">Job Type</h3>
         <div className="space-y-2">
           {JOB_TYPE_OPTIONS.map(option => (
@@ -172,7 +172,7 @@ export function JobFilters({
       </div>
 
       {/* Experience Level */}
-      <div>
+      <div role="group" aria-label="Experience Level">
         <h3 className="mb-3 text-sm font-semibold">Experience Level</h3>
         <div className="space-y-2">
           {EXPERIENCE_LEVEL_OPTIONS.map(option => (
@@ -198,7 +198,7 @@ export function JobFilters({
       </div>
 
       {/* Work Location */}
-      <div>
+      <div role="group" aria-label="Location">
         <h3 className="mb-3 text-sm font-semibold">Work Location</h3>
         <div className="space-y-2">
           {REMOTE_OPTION_OPTIONS.map(option => (
@@ -224,7 +224,7 @@ export function JobFilters({
       </div>
 
       {/* Salary Range */}
-      <div>
+      <div role="group" aria-label="Salary Range">
         <h3 className="mb-3 text-sm font-semibold">Salary Range</h3>
         <RadioGroup
           value={currentSalaryRange}

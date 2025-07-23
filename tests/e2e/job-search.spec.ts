@@ -22,14 +22,15 @@ test.describe('Job Search and Filtering', () => {
   test.skip('should filter by job type', async ({ page }) => {
     // Skip: Filter component structure differs from test expectations
     // Select full-time filter
-    await jobsPage.selectJobTypeFilter('Full-time');
+    await jobsPage.selectJobTypeFilter('Full Time');
     
     // Wait for filtered results
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Give time for filters to apply
     
-    // Check that all visible jobs are full-time
-    const jobTypes = page.locator('[data-testid="job-card"] .badge:has-text("Full-time")');
-    const jobCardsCount = await jobsPage.jobCards.count();
+    // Check that visible jobs include full-time jobs
+    // Badge component renders a div with inline classes, not .badge class
+    const jobTypes = page.locator('[data-testid="job-card"] div:has-text("Full Time")[class*="rounded-md"][class*="border"]');
     const fullTimeCount = await jobTypes.count();
     
     // Should have at least one full-time job
@@ -40,21 +41,22 @@ test.describe('Job Search and Filtering', () => {
   test.skip('should filter by experience level', async ({ page }) => {
     // Skip: Filter component structure differs from test expectations
     // Select senior level filter
-    await jobsPage.selectExperienceFilter('Senior');
+    await jobsPage.selectExperienceFilter('Senior Level');
     
     // Wait for filtered results
     await page.waitForLoadState('networkidle');
     
     // Check that jobs match the filter
-    const seniorJobs = page.locator('[data-testid="job-card"] .badge:has-text("Senior")');
+    // Badge component renders a div with inline classes, not .badge class
+    const seniorJobs = page.locator('[data-testid="job-card"] div:has-text("senior")[class*="rounded-md"][class*="border"]');
     await expect(seniorJobs.first()).toBeVisible();
   });
 
   test.skip('should filter by multiple criteria', async ({ page }) => {
     // Skip: Filter component structure differs from test expectations
     // Apply multiple filters
-    await jobsPage.selectJobTypeFilter('Full-time');
-    await jobsPage.selectExperienceFilter('Senior');
+    await jobsPage.selectJobTypeFilter('Full Time');
+    await jobsPage.selectExperienceFilter('Senior Level');
     
     // Select location filter if available
     const locationCheckbox = jobsPage.filters.location.getByLabel('San Francisco, CA');
@@ -74,15 +76,15 @@ test.describe('Job Search and Filtering', () => {
   test.skip('should clear all filters', async ({ page }) => {
     // Skip: Filter component structure differs from test expectations
     // Apply some filters
-    await jobsPage.selectJobTypeFilter('Full-time');
-    await jobsPage.selectExperienceFilter('Senior');
+    await jobsPage.selectJobTypeFilter('Full Time');
+    await jobsPage.selectExperienceFilter('Senior Level');
     
     // Get count with filters
     await page.waitForLoadState('networkidle');
     const filteredCount = await jobsPage.jobCards.count();
     
-    // Clear all filters
-    await jobsPage.filters.clearAll.click();
+    // Clear all filters - use first() to handle multiple buttons
+    await jobsPage.filters.clearAll.first().click();
     
     // Wait for unfiltered results
     await page.waitForLoadState('networkidle');
@@ -137,6 +139,7 @@ test.describe('Job Search and Filtering', () => {
 
   test.skip('should handle pagination', async ({ page }) => {
     // Skip: We only have 8 mock jobs, but pagination requires > 20
+
     // Check pagination is visible
     await expect(jobsPage.pagination).toBeVisible();
     
@@ -172,8 +175,8 @@ test.describe('Job Search and Filtering', () => {
   test.skip('should persist filters in URL', async ({ page }) => {
     // Skip: Filter component structure differs from test expectations
     // Apply filters
-    await jobsPage.selectJobTypeFilter('Full-time');
-    await jobsPage.selectExperienceFilter('Senior');
+    await jobsPage.selectJobTypeFilter('Full Time');
+    await jobsPage.selectExperienceFilter('Senior Level');
     
     // Check URL has filter params
     await expect(page).toHaveURL(/types.*=.*full-time/);
@@ -183,8 +186,8 @@ test.describe('Job Search and Filtering', () => {
     await page.reload();
     
     // Filters should still be applied
-    const fullTimeCheckbox = jobsPage.filters.jobType.getByLabel('Full-time');
-    const seniorCheckbox = jobsPage.filters.experienceLevel.getByLabel('Senior');
+    const fullTimeCheckbox = jobsPage.filters.jobType.getByLabel('Full Time');
+    const seniorCheckbox = jobsPage.filters.experienceLevel.getByLabel('Senior Level');
     
     await expect(fullTimeCheckbox).toBeChecked();
     await expect(seniorCheckbox).toBeChecked();

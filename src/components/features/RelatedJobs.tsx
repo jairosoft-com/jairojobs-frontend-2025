@@ -13,7 +13,7 @@ interface RelatedJobsProps {
 
 export function RelatedJobs({
   jobs,
-  title = 'Similar Jobs',
+  title = 'Similar Positions',
 }: RelatedJobsProps) {
   const router = useRouter();
   // Limit to 4 jobs for display

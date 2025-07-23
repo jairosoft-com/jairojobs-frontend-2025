@@ -25,6 +25,7 @@ import {
   REMOTE_OPTION_OPTIONS,
 } from '@/lib/utils/filters';
 import Image from 'next/image';
+import { ApplicationModal } from './ApplicationModal';
 
 interface JobDetailsHeaderProps {
   job: Job;
@@ -51,11 +52,6 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
         ? `${Math.round(job.salary.max / 1000)}k`
         : job.salary.max;
     return `$${min} - $${max}/${job.salary.period === 'yearly' ? 'year' : job.salary.period}`;
-  };
-
-  const handleApply = () => {
-    // TODO: Implement apply functionality
-    console.log('Apply clicked');
   };
 
   const handleSave = () => {
@@ -98,7 +94,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
 
         {/* Job Meta Information */}
         <div className="mb-6 flex flex-wrap gap-4 text-gray-600">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" data-testid="location-badge">
             <MapPin className="h-4 w-4" />
             <span>{job.location}</span>
           </div>
@@ -106,7 +102,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
             <Building2 className="h-4 w-4" />
             <span>{remoteOptionLabel}</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" data-testid="salary-range">
             <DollarSign className="h-4 w-4" />
             <span data-testid="salary-range">{formatSalary()}</span>
           </div>
@@ -148,13 +144,7 @@ export function JobDetailsHeader({ job, company }: JobDetailsHeaderProps) {
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button
-            size="lg"
-            onClick={handleApply}
-            className="flex-1 sm:flex-initial"
-          >
-            Apply Now
-          </Button>
+          <ApplicationModal job={job} />
           <Button variant="outline" size="lg" onClick={handleSave}>
             <Bookmark className="mr-2 h-4 w-4" />
             Save Job

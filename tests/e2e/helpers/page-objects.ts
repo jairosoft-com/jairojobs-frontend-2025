@@ -53,7 +53,7 @@ export class JobsPage {
       salaryRange: page.getByRole('group', { name: /salary range/i }),
       clearAll: page.getByRole('button', { name: /clear all/i }),
     };
-    this.pagination = page.getByRole('navigation', { name: /pagination/i });
+    this.pagination = page.getByRole('navigation', { name: 'pagination' });
     this.resultsCount = page.getByTestId('results-count');
   }
 

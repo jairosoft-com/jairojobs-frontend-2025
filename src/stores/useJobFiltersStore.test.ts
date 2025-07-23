@@ -122,10 +122,11 @@ describe('useJobFiltersStore', () => {
       // perPage: 50,
     });
     
+    // No filters set
     expect(hasActiveFilters()).toBe(false);
   });
 
-  it('handles pagination correctly', () => {
+  it('handles filter combinations correctly', () => {
     const { setFilters } = useJobFiltersStore.getState();
     
     // Test pagination would go here, but page is not part of JobFilters
