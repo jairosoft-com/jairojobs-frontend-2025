@@ -6,7 +6,7 @@ test.describe('Job Details Page', () => {
 
   test.beforeEach(async ({ page }) => {
     jobDetailsPage = new JobDetailsPage(page);
-    
+
     // Navigate to jobs page and click first job
     const jobsPage = new JobsPage(page);
     await page.goto('/jobs');
@@ -17,18 +17,18 @@ test.describe('Job Details Page', () => {
     // Check job header information
     await expect(jobDetailsPage.jobTitle).toBeVisible();
     await expect(jobDetailsPage.companyName).toBeVisible();
-    
+
     // Check job badges (type, experience, location)
     await expect(page.getByTestId('job-type-badge')).toBeVisible();
     await expect(page.getByTestId('experience-badge')).toBeVisible();
     await expect(page.getByTestId('location-badge')).toBeVisible();
-    
+
     // Check salary if available
     const salary = page.getByTestId('salary-range');
     if (await salary.isVisible()) {
       await expect(salary).toContainText('$');
     }
-    
+
     // Check action buttons
     await expect(jobDetailsPage.applyButton).toBeVisible();
     await expect(jobDetailsPage.saveButton).toBeVisible();
@@ -36,18 +36,28 @@ test.describe('Job Details Page', () => {
 
   test('should display job description sections', async ({ page }) => {
     // Check all description sections
-    await expect(page.getByRole('heading', { name: /about the role/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /requirements/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /responsibilities/i })).toBeVisible();
-    
+    await expect(
+      page.getByRole('heading', { name: /about the role/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /requirements/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /responsibilities/i }),
+    ).toBeVisible();
+
     // Check for benefits if available
     const benefitsHeading = page.getByRole('heading', { name: /benefits/i });
     if (await benefitsHeading.isVisible()) {
       // Look for benefit list items within the card containing Benefits heading
-      const benefitsList = page.locator('h2:has-text("Benefits")').locator('..').locator('..').locator('ul li');
+      const benefitsList = page
+        .locator('h2:has-text("Benefits")')
+        .locator('..')
+        .locator('..')
+        .locator('ul li');
       await expect(benefitsList.first()).toBeVisible();
     }
-    
+
     // Check for skills/tags
     const skillTags = page.locator('[data-testid="skill-tag"]');
     await expect(skillTags.first()).toBeVisible();
@@ -56,12 +66,12 @@ test.describe('Job Details Page', () => {
   test('should display company information', async ({ page }) => {
     // Check company card is visible
     await expect(jobDetailsPage.companyCard).toBeVisible();
-    
+
     // Check company details
     await expect(page.getByTestId('company-description')).toBeVisible();
     await expect(page.getByTestId('company-industry')).toBeVisible();
     await expect(page.getByTestId('company-size')).toBeVisible();
-    
+
     // Check website link if available
     const websiteLink = page.getByRole('link', { name: /visit website/i });
     if (await websiteLink.isVisible()) {
@@ -72,13 +82,17 @@ test.describe('Job Details Page', () => {
   test('should display related jobs', async ({ page }) => {
     // Scroll to related jobs section
     await jobDetailsPage.relatedJobs.scrollIntoViewIfNeeded();
-    
+
     // Check related jobs are visible
-    await expect(page.getByRole('heading', { name: /similar positions/i })).toBeVisible();
-    
-    const relatedJobCards = jobDetailsPage.relatedJobs.locator('[data-testid="job-card"]');
+    await expect(
+      page.getByRole('heading', { name: /similar positions/i }),
+    ).toBeVisible();
+
+    const relatedJobCards = jobDetailsPage.relatedJobs.locator(
+      '[data-testid="job-card"]',
+    );
     await expect(relatedJobCards.first()).toBeVisible();
-    
+
     // Should show up to 4 related jobs
     const count = await relatedJobCards.count();
     expect(count).toBeGreaterThan(0);
@@ -97,13 +111,13 @@ test.describe('Job Details Page', () => {
   test('should handle job not found', async ({ page }) => {
     // Navigate directly to non-existent job
     await page.goto('/jobs/999999', { waitUntil: 'domcontentloaded' });
-    
+
     // Wait for not found page to render
     await page.waitForSelector('text=/job not found/i', { timeout: 5000 });
-    
+
     // Should show error message
     await expect(page.getByText(/job not found/i)).toBeVisible();
-    
+
     // Should have link to jobs page
     const jobsLink = page.getByRole('link', { name: /view all jobs/i });
     await expect(jobsLink).toBeVisible();
@@ -112,25 +126,27 @@ test.describe('Job Details Page', () => {
   test('should show application deadline warning', async ({ page }) => {
     // Check for deadline warning if deadline is soon
     const deadlineWarning = page.getByText(/application deadline/i);
-    
+
     if (await deadlineWarning.isVisible()) {
       // Should show warning style
-      await expect(deadlineWarning).toHaveClass(/warning|alert|text-orange|text-red/);
+      await expect(deadlineWarning).toHaveClass(
+        /warning|alert|text-orange|text-red/,
+      );
     }
   });
 
   test('should handle share functionality', async ({ page }) => {
     // Check for share button
     const shareButton = page.getByRole('button', { name: /share/i });
-    
+
     if (await shareButton.isVisible()) {
       await shareButton.click();
-      
+
       // Should show share options or copy link
       const copyLinkButton = page.getByRole('button', { name: /copy link/i });
       if (await copyLinkButton.isVisible()) {
         await copyLinkButton.click();
-        
+
         // Should show success message
         await expect(page.getByText(/copied/i)).toBeVisible();
       }
@@ -140,12 +156,9 @@ test.describe('Job Details Page', () => {
   test('should update browser title', async ({ page }) => {
     // Get job title
     const jobTitle = await jobDetailsPage.jobTitle.textContent();
-    
-    // Wait for title to update
-    await page.waitForTimeout(500);
-    
+    const companyName = await page.getByTestId('company-name').textContent();
+
     // Browser title should include job title and company
-    const title = await page.title();
-    expect(title.toLowerCase()).toContain(jobTitle?.toLowerCase() || '');
+    await expect(page).toHaveTitle(new RegExp(`${jobTitle}.*${companyName}`, 'i'));
   });
 });

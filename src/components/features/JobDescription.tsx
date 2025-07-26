@@ -105,7 +105,12 @@ export function JobDescription({ job }: JobDescriptionProps) {
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {job.tags.map(tag => (
-                <Badge key={tag} variant="secondary" className="text-sm" data-testid={`skill-tag-${tag}`}>
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="text-sm"
+                  data-testid="skill-tag"
+                >
                   {tag}
                 </Badge>
               ))}
