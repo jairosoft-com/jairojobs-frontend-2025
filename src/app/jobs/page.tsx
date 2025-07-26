@@ -44,7 +44,8 @@ function JobsContent() {
     const types = searchParams.get('types') || searchParams.get('type');
     if (types) filters.type = types.split(',') as JobType[];
 
-    const levels = searchParams.get('experienceLevels') || searchParams.get('level');
+    const levels =
+      searchParams.get('experienceLevels') || searchParams.get('level');
     if (levels)
       filters.experienceLevel = levels.split(',') as ExperienceLevel[];
 

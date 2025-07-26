@@ -38,12 +38,8 @@ describe('MobileNav', () => {
     render(<MobileNav {...defaultProps} />);
 
     // These are rendered as links because Button with asChild becomes an anchor
-    expect(
-      screen.getByRole('link', { name: /sign in/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /sign up/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /sign in/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /sign up/i })).toBeInTheDocument();
   });
 
   // Skipping backdrop click test as it's complex with Sheet component

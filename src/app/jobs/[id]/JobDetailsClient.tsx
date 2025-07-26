@@ -23,7 +23,11 @@ interface JobDetailsClientProps {
   relatedJobs: Job[];
 }
 
-export function JobDetailsClient({ job, company, relatedJobs }: JobDetailsClientProps) {
+export function JobDetailsClient({
+  job,
+  company,
+  relatedJobs,
+}: JobDetailsClientProps) {
   // Update browser title
   useEffect(() => {
     document.title = `${job.title} at ${job.company} - JairoJobs`;

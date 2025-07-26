@@ -361,7 +361,8 @@ export const mockJobs: Job[] = [
       currency: 'USD',
       period: 'yearly',
     },
-    description: 'Join our backend team to build scalable microservices and APIs that power our enterprise applications.',
+    description:
+      'Join our backend team to build scalable microservices and APIs that power our enterprise applications.',
     requirements: [
       '5+ years of backend development experience',
       'Expert in Python or Java',
@@ -405,7 +406,8 @@ export const mockJobs: Job[] = [
       currency: 'USD',
       period: 'yearly',
     },
-    description: 'Lead product development for our AI-powered analytics platform.',
+    description:
+      'Lead product development for our AI-powered analytics platform.',
     requirements: [
       '3+ years of product management experience',
       'Experience with B2B SaaS products',
@@ -493,7 +495,8 @@ export const mockJobs: Job[] = [
       currency: 'USD',
       period: 'yearly',
     },
-    description: 'Join our data science team to build ML models and derive insights from large datasets.',
+    description:
+      'Join our data science team to build ML models and derive insights from large datasets.',
     requirements: [
       '3+ years of data science experience',
       'Strong knowledge of Python and R',
@@ -647,7 +650,13 @@ export const mockJobs: Job[] = [
       'Health and dental',
       'Retirement plan',
     ],
-    tags: ['Security', 'Cybersecurity', 'CISSP', 'Penetration Testing', 'Compliance'],
+    tags: [
+      'Security',
+      'Cybersecurity',
+      'CISSP',
+      'Penetration Testing',
+      'Compliance',
+    ],
     postedAt: new Date('2025-01-17'),
     applicants: 33,
     featured: false,
@@ -757,7 +766,8 @@ export const mockJobs: Job[] = [
       currency: 'USD',
       period: 'yearly',
     },
-    description: 'Lead our marketing efforts to drive growth and brand awareness.',
+    description:
+      'Lead our marketing efforts to drive growth and brand awareness.',
     requirements: [
       '4+ years of marketing experience',
       'Experience with digital marketing',
@@ -779,7 +789,13 @@ export const mockJobs: Job[] = [
       'Creative freedom',
       'Growth opportunities',
     ],
-    tags: ['Marketing', 'Digital Marketing', 'Strategy', 'Leadership', 'Growth'],
+    tags: [
+      'Marketing',
+      'Digital Marketing',
+      'Strategy',
+      'Leadership',
+      'Growth',
+    ],
     postedAt: new Date('2025-01-18'),
     applicants: 58,
     featured: false,
@@ -801,7 +817,8 @@ export const mockJobs: Job[] = [
       currency: 'USD',
       period: 'yearly',
     },
-    description: 'Join our frontend team as a junior developer and grow your skills.',
+    description:
+      'Join our frontend team as a junior developer and grow your skills.',
     requirements: [
       '1+ years of frontend experience',
       'Knowledge of React or Vue',
@@ -845,7 +862,8 @@ export const mockJobs: Job[] = [
       currency: 'USD',
       period: 'yearly',
     },
-    description: 'Build and maintain data pipelines for our analytics platform.',
+    description:
+      'Build and maintain data pipelines for our analytics platform.',
     requirements: [
       '5+ years of data engineering',
       'Experience with Apache Spark',

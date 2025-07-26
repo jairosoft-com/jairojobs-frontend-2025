@@ -68,57 +68,57 @@ export function JobsPagination({
     <nav aria-label="pagination">
       <Pagination>
         <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            onClick={e => {
-              e.preventDefault();
-              handlePageClick(currentPage - 1);
-            }}
-            className={
-              currentPage === 1
-                ? 'pointer-events-none opacity-50'
-                : 'cursor-pointer'
-            }
-            href="#"
-          />
-        </PaginationItem>
-
-        {pageNumbers.map((pageNum, index) => (
-          <PaginationItem key={`${pageNum}-${index}`}>
-            {pageNum === 'ellipsis' ? (
-              <PaginationEllipsis />
-            ) : (
-              <PaginationLink
-                href="#"
-                isActive={pageNum === currentPage}
-                onClick={e => {
-                  e.preventDefault();
-                  handlePageClick(pageNum);
-                }}
-                className="cursor-pointer"
-              >
-                {pageNum}
-              </PaginationLink>
-            )}
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={e => {
+                e.preventDefault();
+                handlePageClick(currentPage - 1);
+              }}
+              className={
+                currentPage === 1
+                  ? 'pointer-events-none opacity-50'
+                  : 'cursor-pointer'
+              }
+              href="#"
+            />
           </PaginationItem>
-        ))}
 
-        <PaginationItem>
-          <PaginationNext
-            onClick={e => {
-              e.preventDefault();
-              handlePageClick(currentPage + 1);
-            }}
-            className={
-              currentPage === totalPages
-                ? 'pointer-events-none opacity-50'
-                : 'cursor-pointer'
-            }
-            href="#"
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+          {pageNumbers.map((pageNum, index) => (
+            <PaginationItem key={`${pageNum}-${index}`}>
+              {pageNum === 'ellipsis' ? (
+                <PaginationEllipsis />
+              ) : (
+                <PaginationLink
+                  href="#"
+                  isActive={pageNum === currentPage}
+                  onClick={e => {
+                    e.preventDefault();
+                    handlePageClick(pageNum);
+                  }}
+                  className="cursor-pointer"
+                >
+                  {pageNum}
+                </PaginationLink>
+              )}
+            </PaginationItem>
+          ))}
+
+          <PaginationItem>
+            <PaginationNext
+              onClick={e => {
+                e.preventDefault();
+                handlePageClick(currentPage + 1);
+              }}
+              className={
+                currentPage === totalPages
+                  ? 'pointer-events-none opacity-50'
+                  : 'cursor-pointer'
+              }
+              href="#"
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </nav>
   );
 }

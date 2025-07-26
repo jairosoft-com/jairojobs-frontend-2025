@@ -53,12 +53,8 @@ describe('ApplicationSection', () => {
     render(<ApplicationSection {...defaultProps} />);
 
     expect(screen.getByText('Apply for this position')).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(/cover letter/i),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(/upload resume/i),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/cover letter/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/upload resume/i)).toBeInTheDocument();
   });
 
   it('shows required fields', () => {
@@ -67,7 +63,7 @@ describe('ApplicationSection', () => {
     // Check for required field indicators
     const labels = screen.getAllByText('*');
     expect(labels.length).toBeGreaterThanOrEqual(3); // Full name, email, resume
-    
+
     // Check specific labels contain required fields
     expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
@@ -83,9 +79,11 @@ describe('ApplicationSection', () => {
     await user.type(screen.getByLabelText(/full name/i), 'John Doe');
     await user.type(screen.getByLabelText(/email/i), 'john@example.com');
     await user.type(screen.getByLabelText(/phone/i), '+1234567890');
-    
+
     // Upload resume
-    const file = new File(['resume content'], 'resume.pdf', { type: 'application/pdf' });
+    const file = new File(['resume content'], 'resume.pdf', {
+      type: 'application/pdf',
+    });
     const fileInput = screen.getByLabelText(/upload resume/i);
     await user.upload(fileInput, file);
 
@@ -96,7 +94,9 @@ describe('ApplicationSection', () => {
     );
 
     // Submit form
-    await user.click(screen.getByRole('button', { name: /submit application/i }));
+    await user.click(
+      screen.getByRole('button', { name: /submit application/i }),
+    );
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
@@ -114,7 +114,9 @@ describe('ApplicationSection', () => {
     render(<ApplicationSection {...defaultProps} />);
 
     // Try to submit without filling required fields
-    await user.click(screen.getByRole('button', { name: /submit application/i }));
+    await user.click(
+      screen.getByRole('button', { name: /submit application/i }),
+    );
 
     await waitFor(() => {
       expect(screen.getByText(/full name is required/i)).toBeInTheDocument();
@@ -130,17 +132,23 @@ describe('ApplicationSection', () => {
     // Fill other required fields
     await user.type(screen.getByLabelText(/full name/i), 'John Doe');
     await user.type(screen.getByLabelText(/email/i), 'invalid-email');
-    
+
     // Upload a valid file
-    const file = new File(['resume'], 'resume.pdf', { type: 'application/pdf' });
+    const file = new File(['resume'], 'resume.pdf', {
+      type: 'application/pdf',
+    });
     await user.upload(screen.getByLabelText(/upload resume/i), file);
-    
-    await user.click(screen.getByRole('button', { name: /submit application/i }));
+
+    await user.click(
+      screen.getByRole('button', { name: /submit application/i }),
+    );
 
     // The form should not submit with invalid email
     await waitFor(() => {
       // Check that we're still on the form
-      expect(screen.getByRole('button', { name: /submit application/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /submit application/i }),
+      ).toBeInTheDocument();
       // And the email field still has the invalid value
       expect(screen.getByLabelText(/email/i)).toHaveValue('invalid-email');
     });
@@ -153,7 +161,7 @@ describe('ApplicationSection', () => {
     // Try to upload invalid file type
     const file = new File(['content'], 'resume.txt', { type: 'text/plain' });
     const fileInput = screen.getByLabelText(/upload resume/i);
-    
+
     await user.upload(fileInput, file);
 
     // The file should not be accepted - check that no file is displayed
@@ -175,7 +183,7 @@ describe('ApplicationSection', () => {
       { type: 'application/pdf' },
     );
     const fileInput = screen.getByLabelText(/upload resume/i);
-    
+
     await user.upload(fileInput, largeFile);
 
     // The error should appear immediately on file selection
@@ -226,8 +234,8 @@ describe('ApplicationSection', () => {
     const user = userEvent.setup();
     render(<ApplicationSection {...defaultProps} />);
 
-    const file = new File(['resume content'], 'my-resume.pdf', { 
-      type: 'application/pdf' 
+    const file = new File(['resume content'], 'my-resume.pdf', {
+      type: 'application/pdf',
     });
     const fileInput = screen.getByLabelText(/upload resume/i);
     await user.upload(fileInput, file);
@@ -239,8 +247,8 @@ describe('ApplicationSection', () => {
     const user = userEvent.setup();
     render(<ApplicationSection {...defaultProps} />);
 
-    const file = new File(['resume content'], 'my-resume.pdf', { 
-      type: 'application/pdf' 
+    const file = new File(['resume content'], 'my-resume.pdf', {
+      type: 'application/pdf',
     });
     const fileInput = screen.getByLabelText(/upload resume/i);
     await user.upload(fileInput, file);
@@ -284,11 +292,15 @@ describe('ApplicationSection', () => {
     // Fill and submit form
     await user.type(screen.getByLabelText(/full name/i), 'John Doe');
     await user.type(screen.getByLabelText(/email/i), 'john@example.com');
-    
-    const file = new File(['resume'], 'resume.pdf', { type: 'application/pdf' });
+
+    const file = new File(['resume'], 'resume.pdf', {
+      type: 'application/pdf',
+    });
     await user.upload(screen.getByLabelText(/upload resume/i), file);
 
-    await user.click(screen.getByRole('button', { name: /submit application/i }));
+    await user.click(
+      screen.getByRole('button', { name: /submit application/i }),
+    );
 
     await waitFor(() => {
       // Form should be reset
@@ -300,20 +312,26 @@ describe('ApplicationSection', () => {
 
   it('shows loading state during submission', async () => {
     const user = userEvent.setup();
-    const onSubmit = vi.fn().mockImplementation(
-      () => new Promise(resolve => setTimeout(resolve, 100)),
-    );
+    const onSubmit = vi
+      .fn()
+      .mockImplementation(
+        () => new Promise(resolve => setTimeout(resolve, 100)),
+      );
     render(<ApplicationSection {...defaultProps} onSubmit={onSubmit} />);
 
     // Fill required fields
     await user.type(screen.getByLabelText(/full name/i), 'John Doe');
     await user.type(screen.getByLabelText(/email/i), 'john@example.com');
-    
-    const file = new File(['resume'], 'resume.pdf', { type: 'application/pdf' });
+
+    const file = new File(['resume'], 'resume.pdf', {
+      type: 'application/pdf',
+    });
     await user.upload(screen.getByLabelText(/upload resume/i), file);
 
     // Submit
-    await user.click(screen.getByRole('button', { name: /submit application/i }));
+    await user.click(
+      screen.getByRole('button', { name: /submit application/i }),
+    );
 
     expect(screen.getByRole('button', { name: /submitting/i })).toBeDisabled();
   });

@@ -32,7 +32,7 @@ export default async function JobDetailsPage({ params }: JobDetailsPageProps) {
 
   const company = getCompanyById(job.companyId);
   const relatedJobs = getRelatedJobs(job.id);
-  
+
   // If company data is not found, create a minimal company object
   const companyData = company || {
     id: job.companyId,
@@ -49,10 +49,10 @@ export default async function JobDetailsPage({ params }: JobDetailsPageProps) {
   };
 
   return (
-    <JobDetailsClient 
-      job={job} 
-      company={companyData} 
-      relatedJobs={relatedJobs} 
+    <JobDetailsClient
+      job={job}
+      company={companyData}
+      relatedJobs={relatedJobs}
     />
   );
 }

@@ -22,19 +22,19 @@ export const useSavedJobsStore = create<SavedJobsState>()(
 
       toggleSaveJob: (jobId, userId) => {
         const exists = get().savedJobs.find(
-          (job) => job.jobId === jobId && job.userId === userId
+          job => job.jobId === jobId && job.userId === userId,
         );
 
         if (exists) {
           // Remove from saved
-          set((state) => ({
+          set(state => ({
             savedJobs: state.savedJobs.filter(
-              (job) => !(job.jobId === jobId && job.userId === userId)
+              job => !(job.jobId === jobId && job.userId === userId),
             ),
           }));
         } else {
           // Add to saved
-          set((state) => ({
+          set(state => ({
             savedJobs: [
               ...state.savedJobs,
               { jobId, userId, savedAt: new Date() },
@@ -45,24 +45,24 @@ export const useSavedJobsStore = create<SavedJobsState>()(
 
       isSaved: (jobId, userId) => {
         return get().savedJobs.some(
-          (job) => job.jobId === jobId && job.userId === userId
+          job => job.jobId === jobId && job.userId === userId,
         );
       },
 
-      getSavedJobsByUser: (userId) => {
+      getSavedJobsByUser: userId => {
         return get()
-          .savedJobs.filter((job) => job.userId === userId)
-          .map((job) => job.jobId);
+          .savedJobs.filter(job => job.userId === userId)
+          .map(job => job.jobId);
       },
 
-      clearSavedJobs: (userId) => {
-        set((state) => ({
-          savedJobs: state.savedJobs.filter((job) => job.userId !== userId),
+      clearSavedJobs: userId => {
+        set(state => ({
+          savedJobs: state.savedJobs.filter(job => job.userId !== userId),
         }));
       },
     }),
     {
       name: 'saved-jobs-storage',
-    }
-  )
+    },
+  ),
 );

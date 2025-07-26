@@ -26,6 +26,7 @@ export const testData = {
     fullName: 'John Doe',
     email: 'john.doe@example.com',
     phone: '+1 (555) 123-4567',
-    coverLetter: 'I am very interested in this position because of my relevant experience and passion for the role.',
+    coverLetter:
+      'I am very interested in this position because of my relevant experience and passion for the role.',
   },
 };

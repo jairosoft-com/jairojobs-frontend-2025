@@ -40,7 +40,7 @@ export function ApplicationModal({
     if (onApplicationSubmit) {
       await onApplicationSubmit(data);
     }
-    
+
     // Close the modal after successful submission
     setOpen(false);
   };
@@ -52,7 +52,7 @@ export function ApplicationModal({
           Apply Now
         </Button>
       </DialogTrigger>
-      <DialogContent 
+      <DialogContent
         className="max-h-[90vh] overflow-y-auto sm:max-w-[600px]"
         aria-describedby="application-form-description"
       >
@@ -60,7 +60,8 @@ export function ApplicationModal({
           <DialogTitle>Apply for this position</DialogTitle>
         </DialogHeader>
         <div id="application-form-description" className="sr-only">
-          Fill out the form below to apply for the {job.title} position at {job.company}
+          Fill out the form below to apply for the {job.title} position at{' '}
+          {job.company}
         </div>
         <ApplicationSection
           job={job}

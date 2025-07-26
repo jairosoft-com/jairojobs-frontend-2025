@@ -18,7 +18,7 @@ describe('useApplicationStore', () => {
 
   it('submits application successfully', async () => {
     const { submitApplication } = useApplicationStore.getState();
-    
+
     await submitApplication('job-1', {
       fullName: 'John Doe',
       email: 'john@example.com',
@@ -26,7 +26,7 @@ describe('useApplicationStore', () => {
       resume: 'resume.pdf',
       coverLetter: 'I am interested in this position',
     });
-    
+
     const state = useApplicationStore.getState();
     expect(state.applications).toHaveLength(1);
     expect(state.applications[0]).toMatchObject({
@@ -77,10 +77,10 @@ describe('useApplicationStore', () => {
         },
       ],
     });
-    
+
     const { getApplicationsByUser } = useApplicationStore.getState();
     const userApplications = getApplicationsByUser('user-1');
-    
+
     expect(userApplications).toHaveLength(2);
     expect(userApplications.every(app => app.userId === 'user-1')).toBe(true);
   });
@@ -97,16 +97,16 @@ describe('useApplicationStore', () => {
       appliedAt: new Date(),
       updatedAt: new Date(),
     };
-    
+
     useApplicationStore.setState({
       applications: [testApplication],
     });
-    
+
     const { getApplicationByJobAndUser } = useApplicationStore.getState();
     const application = getApplicationByJobAndUser('job-1', 'user-1');
-    
+
     expect(application).toEqual(testApplication);
-    
+
     // Test non-existent application
     const notFound = getApplicationByJobAndUser('job-2', 'user-1');
     expect(notFound).toBeUndefined();
@@ -129,13 +129,15 @@ describe('useApplicationStore', () => {
         },
       ],
     });
-    
+
     const { updateApplicationStatus } = useApplicationStore.getState();
     updateApplicationStatus('1', 'shortlisted');
-    
+
     const state = useApplicationStore.getState();
     expect(state.applications[0].status).toBe('shortlisted');
-    expect(state.applications[0].updatedAt.getTime()).toBeGreaterThan(originalDate.getTime());
+    expect(state.applications[0].updatedAt.getTime()).toBeGreaterThan(
+      originalDate.getTime(),
+    );
   });
 
   it('withdraws application', () => {
@@ -165,10 +167,10 @@ describe('useApplicationStore', () => {
         },
       ],
     });
-    
+
     const { withdrawApplication } = useApplicationStore.getState();
     withdrawApplication('1');
-    
+
     const state = useApplicationStore.getState();
     expect(state.applications).toHaveLength(1);
     expect(state.applications[0].id).toBe('2');

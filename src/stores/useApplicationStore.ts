@@ -18,10 +18,22 @@ export interface JobApplication {
 interface ApplicationState {
   applications: JobApplication[];
   isLoading: boolean;
-  submitApplication: (jobId: string, data: Omit<JobApplication, 'id' | 'jobId' | 'userId' | 'status' | 'appliedAt' | 'updatedAt'>) => Promise<void>;
+  submitApplication: (
+    jobId: string,
+    data: Omit<
+      JobApplication,
+      'id' | 'jobId' | 'userId' | 'status' | 'appliedAt' | 'updatedAt'
+    >,
+  ) => Promise<void>;
   getApplicationsByUser: (userId: string) => JobApplication[];
-  getApplicationByJobAndUser: (jobId: string, userId: string) => JobApplication | undefined;
-  updateApplicationStatus: (applicationId: string, status: JobApplication['status']) => void;
+  getApplicationByJobAndUser: (
+    jobId: string,
+    userId: string,
+  ) => JobApplication | undefined;
+  updateApplicationStatus: (
+    applicationId: string,
+    status: JobApplication['status'],
+  ) => void;
   withdrawApplication: (applicationId: string) => void;
 }
 
@@ -35,8 +47,8 @@ export const useApplicationStore = create<ApplicationState>()(
         set({ isLoading: true });
         try {
           // Simulate API call
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
           const newApplication: JobApplication = {
             id: Date.now().toString(),
             jobId,
@@ -46,8 +58,8 @@ export const useApplicationStore = create<ApplicationState>()(
             appliedAt: new Date(),
             updatedAt: new Date(),
           };
-          
-          set((state) => ({
+
+          set(state => ({
             applications: [...state.applications, newApplication],
             isLoading: false,
           }));
@@ -57,34 +69,36 @@ export const useApplicationStore = create<ApplicationState>()(
         }
       },
 
-      getApplicationsByUser: (userId) => {
-        return get().applications.filter((app) => app.userId === userId);
+      getApplicationsByUser: userId => {
+        return get().applications.filter(app => app.userId === userId);
       },
 
       getApplicationByJobAndUser: (jobId, userId) => {
         return get().applications.find(
-          (app) => app.jobId === jobId && app.userId === userId
+          app => app.jobId === jobId && app.userId === userId,
         );
       },
 
       updateApplicationStatus: (applicationId, status) => {
-        set((state) => ({
-          applications: state.applications.map((app) =>
+        set(state => ({
+          applications: state.applications.map(app =>
             app.id === applicationId
               ? { ...app, status, updatedAt: new Date() }
-              : app
+              : app,
           ),
         }));
       },
 
-      withdrawApplication: (applicationId) => {
-        set((state) => ({
-          applications: state.applications.filter((app) => app.id !== applicationId),
+      withdrawApplication: applicationId => {
+        set(state => ({
+          applications: state.applications.filter(
+            app => app.id !== applicationId,
+          ),
         }));
       },
     }),
     {
       name: 'applications-storage',
-    }
-  )
+    },
+  ),
 );

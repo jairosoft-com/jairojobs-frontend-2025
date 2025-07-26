@@ -34,9 +34,12 @@ const applicationSchema = z.object({
   phone: z.string().optional(),
   resume: z
     .instanceof(File, { message: 'Resume is required' })
-    .refine((file) => file.size <= MAX_FILE_SIZE, 'File size must be less than 5MB')
     .refine(
-      (file) => ACCEPTED_FILE_TYPES.includes(file.type),
+      file => file.size <= MAX_FILE_SIZE,
+      'File size must be less than 5MB',
+    )
+    .refine(
+      file => ACCEPTED_FILE_TYPES.includes(file.type),
       'Only PDF, DOC, and DOCX files are allowed',
     ),
   coverLetter: z.string().max(1000).optional(),
@@ -109,11 +112,11 @@ export function ApplicationSection({
     try {
       setIsSubmitting(true);
       await onSubmit(data);
-      
+
       // Reset form on success
       form.reset();
       setSelectedFile(null);
-      
+
       toast({
         title: 'Application submitted!',
         description: 'Your application has been sent successfully.',
@@ -176,9 +179,11 @@ export function ApplicationSection({
   }
 
   return (
-    <div className={hideTitle ? "" : "rounded-lg border bg-card p-6"}>
-      {!hideTitle && <h2 className="mb-6 text-xl font-semibold">Apply for this position</h2>}
-      
+    <div className={hideTitle ? '' : 'rounded-lg border bg-card p-6'}>
+      {!hideTitle && (
+        <h2 className="mb-6 text-xl font-semibold">Apply for this position</h2>
+      )}
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
           {/* Full Name */}
@@ -208,7 +213,11 @@ export function ApplicationSection({
                   Email <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="john@example.com" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="john@example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -223,7 +232,11 @@ export function ApplicationSection({
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
+                  <Input
+                    type="tel"
+                    placeholder="+1 (555) 123-4567"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>Optional</FormDescription>
                 <FormMessage />
@@ -251,7 +264,9 @@ export function ApplicationSection({
                         )}
                       >
                         <Upload className="mb-2 h-8 w-8 text-muted-foreground" />
-                        <span className="text-sm font-medium">Upload Resume</span>
+                        <span className="text-sm font-medium">
+                          Upload Resume
+                        </span>
                         <span className="mt-1 text-xs text-muted-foreground">
                           PDF, DOC, or DOCX (max 5MB)
                         </span>
@@ -266,7 +281,9 @@ export function ApplicationSection({
                       </label>
                     ) : (
                       <div className="flex items-center justify-between rounded-lg border bg-muted/50 p-3">
-                        <span className="text-sm font-medium">{selectedFile.name}</span>
+                        <span className="text-sm font-medium">
+                          {selectedFile.name}
+                        </span>
                         <Button
                           type="button"
                           variant="ghost"
@@ -312,11 +329,7 @@ export function ApplicationSection({
           />
 
           {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Submit Application'}
           </Button>
         </form>

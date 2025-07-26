@@ -22,8 +22,8 @@ const defaultFilters: JobFilters = {
 export const useJobFiltersStore = create<JobFiltersState>((set, get) => ({
   filters: defaultFilters,
 
-  setFilters: (newFilters) => {
-    set((state) => ({
+  setFilters: newFilters => {
+    set(state => ({
       filters: { ...state.filters, ...newFilters },
     }));
   },

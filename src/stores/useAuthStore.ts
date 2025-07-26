@@ -15,13 +15,17 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (data: { email: string; password: string; name: string }) => Promise<void>;
+  register: (data: {
+    email: string;
+    password: string;
+    name: string;
+  }) => Promise<void>;
   updateProfile: (data: Partial<User>) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    set => ({
       user: null,
       isAuthenticated: false,
       isLoading: false,
@@ -31,8 +35,8 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true });
         try {
           // Simulate API call
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
           // Mock successful login
           const mockUser: User = {
             id: '1',
@@ -40,7 +44,7 @@ export const useAuthStore = create<AuthState>()(
             name: email.split('@')[0],
             role: 'jobseeker',
           };
-          
+
           set({ user: mockUser, isAuthenticated: true, isLoading: false });
         } catch (error) {
           set({ isLoading: false });
@@ -52,12 +56,12 @@ export const useAuthStore = create<AuthState>()(
         set({ user: null, isAuthenticated: false });
       },
 
-      register: async (data) => {
+      register: async data => {
         set({ isLoading: true });
         try {
           // Simulate API call
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
           // Mock successful registration
           const mockUser: User = {
             id: Date.now().toString(),
@@ -65,7 +69,7 @@ export const useAuthStore = create<AuthState>()(
             name: data.name,
             role: 'jobseeker',
           };
-          
+
           set({ user: mockUser, isAuthenticated: true, isLoading: false });
         } catch (error) {
           set({ isLoading: false });
@@ -73,14 +77,14 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      updateProfile: (data) => {
-        set((state) => ({
+      updateProfile: data => {
+        set(state => ({
           user: state.user ? { ...state.user, ...data } : null,
         }));
       },
     }),
     {
       name: 'auth-storage',
-    }
-  )
+    },
+  ),
 );

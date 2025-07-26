@@ -10,7 +10,9 @@ export class HomePage {
 
   constructor(page: Page) {
     this.page = page;
-    this.searchInput = page.getByPlaceholder('Search job title, keywords, or company');
+    this.searchInput = page.getByPlaceholder(
+      'Search job title, keywords, or company',
+    );
     this.locationInput = page.getByPlaceholder('City, state, or remote');
     this.searchButton = page.getByRole('button', { name: /search/i });
     this.featuredJobsSection = page.getByTestId('featured-jobs');
@@ -66,7 +68,9 @@ export class JobsPage {
   }
 
   async goToPage(pageNumber: number) {
-    await this.pagination.getByRole('button', { name: pageNumber.toString() }).click();
+    await this.pagination
+      .getByRole('button', { name: pageNumber.toString() })
+      .click();
   }
 
   async clickJobCard(index: number) {
